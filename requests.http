@@ -2,14 +2,14 @@
 # Usage in VS Code REST Client:
 # 0) Start local API: npm run sam:local
 # 1) Update local and prod base URLs
-# 2) For MCP over SSE, open /sse first, then copy sessionId into @mcpSessionId
-# 3) Send /message requests with the same sessionId
+# 2) Initialize MCP with POST /mcp (initialize request), then copy `mcp-session-id` response header into @mcpSessionId
+# 3) Send subsequent POST/GET/DELETE /mcp requests with the same `mcp-session-id` header
+# Public demo: no API key is required for any route.
 
 @contentType = application/json
 @localBaseURL = http://localhost:3000
 @prodBaseURL = https://xx7dxyxbuj.execute-api.eu-north-1.amazonaws.com
-@apiKey = replace-with-api-key-if-enabled
-@mcpSessionId = replace-after-calling-sse
+@mcpSessionId = replace-after-calling-mcp-get
 
 ### --------------------------------------------------------
 ### LOCAL REST REQUESTS
@@ -51,20 +51,40 @@ Content-Type: {{contentType}}
 }
 
 ### --------------------------------------------------------
-### LOCAL MCP (SSE) REQUESTS
+### LOCAL MCP (STREAMABLE HTTP) REQUESTS
 ### --------------------------------------------------------
 
 ### Local MCP health
 GET {{localBaseURL}}/mcp-health
 Accept: {{contentType}}
 
-### Local MCP SSE connect (open this first; read sessionId from stream)
-GET {{localBaseURL}}/sse
+### Local MCP initialize session (run this first; copy mcp-session-id response header)
+POST {{localBaseURL}}/mcp
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 0,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2025-03-26",
+    "capabilities": {},
+    "clientInfo": {
+      "name": "rest-client",
+      "version": "1.0.0"
+    }
+  }
+}
+
+### Local MCP optional stream connect (requires mcp-session-id header)
+GET {{localBaseURL}}/mcp
 Accept: text/event-stream
+mcp-session-id: {{mcpSessionId}}
 
 ### Local MCP list tools
-POST {{localBaseURL}}/message?sessionId={{mcpSessionId}}
+POST {{localBaseURL}}/mcp
 Content-Type: {{contentType}}
+mcp-session-id: {{mcpSessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -74,15 +94,16 @@ Content-Type: {{contentType}}
 }
 
 ### Local MCP call calculate_emissions
-POST {{localBaseURL}}/message?sessionId={{mcpSessionId}}
+POST {{localBaseURL}}/mcp
 Content-Type: {{contentType}}
+mcp-session-id: {{mcpSessionId}}
 
 {
   "jsonrpc": "2.0",
   "id": 2,
   "method": "tools/call",
   "params": {
-    "name": "calculate_emissions",
+    "name": "calculate_AI_carbon_emissions",
     "arguments": {
       "model": "opus",
       "task": "agentic",
@@ -93,8 +114,9 @@ Content-Type: {{contentType}}
 }
 
 ### Local MCP invalid session check
-POST {{localBaseURL}}/message?sessionId=bad-session
+POST {{localBaseURL}}/mcp
 Content-Type: {{contentType}}
+mcp-session-id: bad-session
 
 {
   "jsonrpc": "2.0",
@@ -103,6 +125,10 @@ Content-Type: {{contentType}}
   "params": {}
 }
 
+### Local MCP terminate session
+DELETE {{localBaseURL}}/mcp
+mcp-session-id: {{mcpSessionId}}
+
 ### --------------------------------------------------------
 ### PRODUCTION REQUESTS
 ### --------------------------------------------------------
@@ -110,12 +136,10 @@ Content-Type: {{contentType}}
 ### Production REST health check
 GET {{prodBaseURL}}/health
 Accept: {{contentType}}
-# x-api-key: {{apiKey}}
 
 ### Production REST carbon calculation
 POST {{prodBaseURL}}/carbon
 Content-Type: {{contentType}}
-# x-api-key: {{apiKey}}
 
 {
   "model": "sonnet",
@@ -127,17 +151,34 @@ Content-Type: {{contentType}}
 ### Production MCP health check
 GET {{prodBaseURL}}/mcp-health
 Accept: {{contentType}}
-# x-api-key: {{apiKey}}
 
-### Production MCP SSE connect (open first)
-GET {{prodBaseURL}}/sse
+### Production MCP initialize session (run first; copy mcp-session-id response header)
+POST {{prodBaseURL}}/mcp
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2025-03-26",
+    "capabilities": {},
+    "clientInfo": {
+      "name": "rest-client",
+      "version": "1.0.0"
+    }
+  }
+}
+
+### Production MCP optional stream connect (requires mcp-session-id header)
+GET {{prodBaseURL}}/mcp
 Accept: text/event-stream
-# x-api-key: {{apiKey}}
+mcp-session-id: {{mcpSessionId}}
 
 ### Production MCP list tools
-POST {{prodBaseURL}}/message?sessionId={{mcpSessionId}}
+POST {{prodBaseURL}}/mcp
 Content-Type: {{contentType}}
-# x-api-key: {{apiKey}}
+mcp-session-id: {{mcpSessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -147,16 +188,16 @@ Content-Type: {{contentType}}
 }
 
 ### Production MCP call calculate_emissions
-POST {{prodBaseURL}}/message?sessionId={{mcpSessionId}}
+POST {{prodBaseURL}}/mcp
 Content-Type: {{contentType}}
-# x-api-key: {{apiKey}}
+mcp-session-id: {{mcpSessionId}}
 
 {
   "jsonrpc": "2.0",
   "id": 12,
   "method": "tools/call",
   "params": {
-    "name": "calculate_emissions",
+    "name": "calculate_AI_carbon_emissions",
     "arguments": {
       "model": "haiku",
       "task": "chat",
@@ -165,3 +206,7 @@ Content-Type: {{contentType}}
     }
   }
 }
+
+### Production MCP terminate session
+DELETE {{prodBaseURL}}/mcp
+mcp-session-id: {{mcpSessionId}}

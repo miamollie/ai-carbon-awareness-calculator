@@ -1,10 +1,31 @@
-import express, { Request, Response, NextFunction } from "express";
-import rateLimit from "express-rate-limit";
+import express from "express";
 import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { calculate, validateRequest } from "../calculator";
-import { CarbonRequest } from "../types";
+import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
+import { calculate } from "../calculator";
+import {
+  carbonRequestSchema,
+  carbonRequestShape,
+  carbonResponseShape,
+} from "../schemas/carbon";
+import {
+  mcpGetLimiter,
+  mcpPostLimiter,
+  mcpDeleteLimiter,
+  healthLimiter,
+} from "./ratelimit";
+import {
+  getActiveSessionCount,
+  hasSessionCapacity,
+  createSessionToken,
+  headerValue,
+  SESSION_ID_HEADER,
+  getSession,
+  registerSession,
+  removeSession,
+  MAX_ACTIVE_SESSIONS,
+} from "./sessions";
 
 function buildMcpServer(): McpServer {
   const server = new McpServer(
@@ -13,30 +34,35 @@ function buildMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "calculate_emissions",
+    "calculate_AI_carbon_emissions",
     {
-      title: "Calculate Emissions",
+      title: "Calculate AI CarbonEmissions",
       description:
         "Calculate carbon emissions (kg CO2e) from AI model token usage",
+      inputSchema: carbonRequestShape,
+      outputSchema: carbonResponseShape,
     },
     async (args) => {
-      const request = args as unknown as CarbonRequest;
-      const validationError = validateRequest(request);
-      if (validationError) {
+      const parsedRequest = carbonRequestSchema.safeParse(args);
+      if (!parsedRequest.success) {
         return {
           content: [
             {
               type: "text",
-              text: JSON.stringify({ error: validationError }),
+              text: JSON.stringify({ error: "Invalid tool input" }),
             },
           ],
           isError: true,
         };
       }
 
-      const result = calculate(request);
+      const result = calculate(parsedRequest.data);
+      const structuredContent = result as unknown as Record<string, unknown>;
       return {
-        content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        content: [
+          { type: "text", text: JSON.stringify(structuredContent, null, 2) },
+        ],
+        structuredContent,
       };
     },
   );
@@ -48,59 +74,133 @@ export function createMcpApp() {
   const app = createMcpExpressApp();
   app.use(express.json());
 
-  // RATE LIMITING: Prevent abuse of MCP endpoints.
-  // Store: In-memory (suitable for single Lambda instance; use Redis/DynamoDB for distributed deployments)
-  // SSE: 30 requests/minute per IP (typical MCP clients connect once, then stream)
-  // Message: 60 requests/minute per IP (allows some rapid requests within a session)
-  const sseLimiter = rateLimit({
-    windowMs: 60 * 1000, // 1 minute window
-    max: 30, // 30 requests per minute per IP
-    message: "Too many SSE connections from this IP, please try again later",
-    standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
-    legacyHeaders: false, // Disable `X-RateLimit-*` headers
+  app.get("/mcp", mcpGetLimiter, async (req, res) => {
+    const sessionId = headerValue(req.headers[SESSION_ID_HEADER]);
+    if (!sessionId) {
+      res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32000,
+          message: "Missing mcp-session-id header",
+        },
+        id: null,
+      });
+      return;
+    }
+
+    const session = getSession(sessionId);
+    if (!session) {
+      res.status(404).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32001,
+          message: "Invalid session ID",
+        },
+        id: null,
+      });
+      return;
+    }
+
+    await session.transport.handleRequest(req, res);
   });
 
-  const messageLimiter = rateLimit({
-    windowMs: 60 * 1000, // 1 minute window
-    max: 60, // 60 requests per minute per IP
-    message: "Too many messages from this IP, please try again later",
-    standardHeaders: true,
-    legacyHeaders: false,
-  });
+  app.post("/mcp", mcpPostLimiter, async (req, res) => {
+    const sessionId = headerValue(req.headers[SESSION_ID_HEADER]);
 
-  const healthLimiter = rateLimit({
-    windowMs: 60 * 1000,
-    max: 300, // Health checks are frequent, allow more
-    standardHeaders: true,
-    legacyHeaders: false,
-  });
+    if (sessionId) {
+      const session = getSession(sessionId);
+      if (!session) {
+        res.status(404).json({
+          jsonrpc: "2.0",
+          error: {
+            code: -32001,
+            message: "Invalid session ID",
+          },
+          id: null,
+        });
+        return;
+      }
 
-  app.get("/sse", sseLimiter, async (req, res) => {
+      await session.transport.handleRequest(req, res, req.body);
+      return;
+    }
+
+    if (!isInitializeRequest(req.body)) {
+      res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32000,
+          message: "No valid session ID provided",
+        },
+        id: null,
+      });
+      return;
+    }
+
+    if (!hasSessionCapacity()) {
+      res.status(429).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32004,
+          message: "Session limit reached",
+          data: {
+            activeSessions: getActiveSessionCount(),
+            maxSessions: MAX_ACTIVE_SESSIONS,
+          },
+        },
+        id: null,
+      });
+      return;
+    }
+
     const server = buildMcpServer();
     const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
+      sessionIdGenerator: () => createSessionToken(),
+      onsessioninitialized: (initializedSessionId) => {
+        registerSession(initializedSessionId, { transport, server });
+      },
     });
 
-    await server.connect(transport);
-    await transport.handleRequest(req, res);
-    res.on("close", () => {
-      transport.close().catch(() => undefined);
-      server.close().catch(() => undefined);
-    });
-  });
-
-  app.post("/message", messageLimiter, async (req, res) => {
-    const server = buildMcpServer();
-    const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
-    });
+    transport.onclose = () => {
+      const activeSessionId = transport.sessionId;
+      if (activeSessionId) {
+        removeSession(activeSessionId);
+      }
+      void server.close().catch(() => undefined);
+    };
 
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
-    res.on("close", () => {
-      transport.close().catch(() => undefined);
-      server.close().catch(() => undefined);
-    });
+  });
+
+  app.delete("/mcp", mcpDeleteLimiter, async (req, res) => {
+    const sessionId = headerValue(req.headers[SESSION_ID_HEADER]);
+    if (!sessionId) {
+      res.status(400).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32000,
+          message: "Missing mcp-session-id header",
+        },
+        id: null,
+      });
+      return;
+    }
+
+    const session = getSession(sessionId);
+    if (!session) {
+      res.status(404).json({
+        jsonrpc: "2.0",
+        error: {
+          code: -32001,
+          message: "Invalid session ID",
+        },
+        id: null,
+      });
+      return;
+    }
+
+    await session.transport.handleRequest(req, res);
   });
 
   app.get("/mcp-health", healthLimiter, (_req, res) => {

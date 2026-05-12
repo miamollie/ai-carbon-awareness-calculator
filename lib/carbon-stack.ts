@@ -68,7 +68,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       entry: "src/mcp/handler.ts",
       handler: "handler",
       runtime: lambda.Runtime.NODEJS_20_X,
-      // NOTE: Max timeout used for SSE streaming
+      // NOTE: Max timeout used for Streamable HTTP responses
       timeout: cdk.Duration.seconds(29),
       logGroup: mcpLogGroup,
       bundling: {
@@ -95,11 +95,17 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
     const api = new apigwv2.HttpApi(this, "AICarbonAwarenessApi", {
       description: `AICarbon calculator API (${props.env?.region || defaultRegion})`,
       corsPreflight: {
-        allowMethods: [apigwv2.CorsHttpMethod.POST, apigwv2.CorsHttpMethod.GET],
+        allowMethods: [
+          apigwv2.CorsHttpMethod.POST,
+          apigwv2.CorsHttpMethod.GET,
+          apigwv2.CorsHttpMethod.DELETE,
+        ],
         allowOrigins: ["*"],
         // ASSUMPTION: permissive CORS is acceptable for internal MVP testing only.
       },
     });
+
+    // Intentionally public demo API: no API key or authorizer is configured.
 
     // Express middleware rate limiting is applied within MCP Lambda (mcp-app.ts)
 
@@ -121,21 +127,30 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       ),
     });
 
-    // ASSUMPTION: MCP SSE clients reconnect frequently, so API Gateway's 29s timeout is acceptable.
+    // ASSUMPTION: MCP streamable-http clients reconnect frequently, so API Gateway's 29s timeout is acceptable.
     api.addRoutes({
-      path: "/sse",
+      path: "/mcp",
       methods: [apigwv2.HttpMethod.GET],
       integration: new integrations.HttpLambdaIntegration(
-        "McpSseIntegration",
+        "McpGetIntegration",
         mcpLambda,
       ),
     });
 
     api.addRoutes({
-      path: "/message",
+      path: "/mcp",
       methods: [apigwv2.HttpMethod.POST],
       integration: new integrations.HttpLambdaIntegration(
-        "McpMessageIntegration",
+        "McpPostIntegration",
+        mcpLambda,
+      ),
+    });
+
+    api.addRoutes({
+      path: "/mcp",
+      methods: [apigwv2.HttpMethod.DELETE],
+      integration: new integrations.HttpLambdaIntegration(
+        "McpDeleteIntegration",
         mcpLambda,
       ),
     });
@@ -198,14 +213,14 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       description: "GET endpoint for service health",
     });
 
-    new cdk.CfnOutput(this, "McpSseEndpoint", {
-      value: `${api.apiEndpoint}/sse`,
-      description: "GET SSE endpoint for MCP clients",
+    new cdk.CfnOutput(this, "McpGetEndpoint", {
+      value: `${api.apiEndpoint}/mcp`,
+      description: "GET streamable-http MCP endpoint",
     });
 
-    new cdk.CfnOutput(this, "McpMessageEndpoint", {
-      value: `${api.apiEndpoint}/message`,
-      description: "POST endpoint for MCP client messages (?sessionId=)",
+    new cdk.CfnOutput(this, "McpPostEndpoint", {
+      value: `${api.apiEndpoint}/mcp`,
+      description: "POST streamable-http MCP endpoint (use mcp-session-id header)",
     });
   }
 }
