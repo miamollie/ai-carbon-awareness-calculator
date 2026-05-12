@@ -1,0 +1,167 @@
+# Carbon Calculator request collection
+# Usage in VS Code REST Client:
+# 0) Start local API: npm run sam:local
+# 1) Update local and prod base URLs
+# 2) For MCP over SSE, open /sse first, then copy sessionId into @mcpSessionId
+# 3) Send /message requests with the same sessionId
+
+@contentType = application/json
+@localBaseURL = http://localhost:3000
+@prodBaseURL = https://xx7dxyxbuj.execute-api.eu-north-1.amazonaws.com
+@apiKey = replace-with-api-key-if-enabled
+@mcpSessionId = replace-after-calling-sse
+
+### --------------------------------------------------------
+### LOCAL REST REQUESTS
+### --------------------------------------------------------
+
+### Local REST health check
+GET {{localBaseURL}}/health
+Accept: {{contentType}}
+
+### Local REST carbon calculation
+POST {{localBaseURL}}/carbon
+Content-Type: {{contentType}}
+
+{
+  "model": "sonnet",
+  "task": "coding",
+  "input_tokens": 50000,
+  "output_tokens": 25000
+}
+
+### Local REST validation failure (unknown model)
+POST {{localBaseURL}}/carbon
+Content-Type: {{contentType}}
+
+{
+  "model": "invalid-model",
+  "task": "chat",
+  "input_tokens": 2000,
+  "output_tokens": 300
+}
+
+### Local REST invalid payload (missing required token fields)
+POST {{localBaseURL}}/carbon
+Content-Type: {{contentType}}
+
+{
+  "model": "sonnet",
+  "task": "chat"
+}
+
+### --------------------------------------------------------
+### LOCAL MCP (SSE) REQUESTS
+### --------------------------------------------------------
+
+### Local MCP health
+GET {{localBaseURL}}/mcp-health
+Accept: {{contentType}}
+
+### Local MCP SSE connect (open this first; read sessionId from stream)
+GET {{localBaseURL}}/sse
+Accept: text/event-stream
+
+### Local MCP list tools
+POST {{localBaseURL}}/message?sessionId={{mcpSessionId}}
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/list",
+  "params": {}
+}
+
+### Local MCP call calculate_emissions
+POST {{localBaseURL}}/message?sessionId={{mcpSessionId}}
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/call",
+  "params": {
+    "name": "calculate_emissions",
+    "arguments": {
+      "model": "opus",
+      "task": "agentic",
+      "input_tokens": 12000,
+      "output_tokens": 6000
+    }
+  }
+}
+
+### Local MCP invalid session check
+POST {{localBaseURL}}/message?sessionId=bad-session
+Content-Type: {{contentType}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/list",
+  "params": {}
+}
+
+### --------------------------------------------------------
+### PRODUCTION REQUESTS
+### --------------------------------------------------------
+
+### Production REST health check
+GET {{prodBaseURL}}/health
+Accept: {{contentType}}
+# x-api-key: {{apiKey}}
+
+### Production REST carbon calculation
+POST {{prodBaseURL}}/carbon
+Content-Type: {{contentType}}
+# x-api-key: {{apiKey}}
+
+{
+  "model": "sonnet",
+  "task": "document-generation",
+  "input_tokens": 85000,
+  "output_tokens": 40000
+}
+
+### Production MCP health check
+GET {{prodBaseURL}}/mcp-health
+Accept: {{contentType}}
+# x-api-key: {{apiKey}}
+
+### Production MCP SSE connect (open first)
+GET {{prodBaseURL}}/sse
+Accept: text/event-stream
+# x-api-key: {{apiKey}}
+
+### Production MCP list tools
+POST {{prodBaseURL}}/message?sessionId={{mcpSessionId}}
+Content-Type: {{contentType}}
+# x-api-key: {{apiKey}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 11,
+  "method": "tools/list",
+  "params": {}
+}
+
+### Production MCP call calculate_emissions
+POST {{prodBaseURL}}/message?sessionId={{mcpSessionId}}
+Content-Type: {{contentType}}
+# x-api-key: {{apiKey}}
+
+{
+  "jsonrpc": "2.0",
+  "id": 12,
+  "method": "tools/call",
+  "params": {
+    "name": "calculate_emissions",
+    "arguments": {
+      "model": "haiku",
+      "task": "chat",
+      "input_tokens": 5000,
+      "output_tokens": 1200
+    }
+  }
+}
