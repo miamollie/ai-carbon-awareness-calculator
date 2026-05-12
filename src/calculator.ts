@@ -1,7 +1,7 @@
 import { CarbonRequest, CarbonResponse, ModelName, TaskName } from "./types";
 import { MODELS } from "./data/models";
 import { EQUIVALENCIES } from "./data/equivalencies";
-import { APIGatewayProxyResultV2 } from "aws-lambda";
+import { carbonRequestSchema } from "./schemas/carbon";
 
 type ModelFactors = { input: number; output: number; time: number };
 
@@ -17,19 +17,25 @@ function isValidTask(task: string): task is TaskName {
 }
 
 export function validateRequest(payload: CarbonRequest): string | null {
-  const model = payload.model ?? "sonnet";
-  if (!isValidModel(model)) {
-    return "unknown model";
-  }
-  const task = payload.task ?? "chat";
-  if (!isValidTask(task)) {
-    return "unknown task";
-  }
-  if (payload.input_tokens < 0 || payload.output_tokens < 0) {
-    return "token counts must be non-negative";
-  }
-  if (payload.input_tokens > 1000000 || payload.output_tokens > 1000000) {
-    return "token counts exceed maximum allowed (1M)";
+  const parsedPayload = carbonRequestSchema.safeParse(payload);
+  if (!parsedPayload.success) {
+    const firstIssue = parsedPayload.error.issues[0];
+    if (!firstIssue) {
+      return "invalid request";
+    }
+    if (firstIssue.path[0] === "model") {
+      return "unknown model";
+    }
+    if (firstIssue.path[0] === "task") {
+      return "unknown task";
+    }
+    if (
+      firstIssue.path[0] === "input_tokens" ||
+      firstIssue.path[0] === "output_tokens"
+    ) {
+      return "token counts must be integers between 0 and 1000000";
+    }
+    return "invalid request";
   }
   return null;
 }

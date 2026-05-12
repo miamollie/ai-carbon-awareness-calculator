@@ -1,6 +1,6 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
-import { CarbonRequest } from "../types";
-import { calculate, validateRequest } from "../calculator";
+import { calculate } from "../calculator";
+import { carbonRequestSchema } from "../schemas/carbon";
 
 export const handler = async (
   event: APIGatewayProxyEventV2,
@@ -13,12 +13,18 @@ export const handler = async (
     });
   }
 
-  const validationError = validateRequest(payload);
-  if (validationError) {
-    return jsonResponse(400, { error: validationError });
+  const parsedPayload = carbonRequestSchema.safeParse(payload);
+  if (!parsedPayload.success) {
+    return jsonResponse(400, {
+      error: "Invalid request body",
+      details: parsedPayload.error.issues.map((issue) => ({
+        path: issue.path.join("."),
+        message: issue.message,
+      })),
+    });
   }
 
-  return jsonResponse(200, calculate(payload));
+  return jsonResponse(200, calculate(parsedPayload.data));
 };
 
 // Ensure errors are not cached by API Gateway, but successful responses can be cached for 1 hour
@@ -38,12 +44,12 @@ function jsonResponse(
   };
 }
 
-function parseBody(event: APIGatewayProxyEventV2): CarbonRequest | null {
+function parseBody(event: APIGatewayProxyEventV2): unknown | null {
   if (!event.body) {
     return null;
   }
   try {
-    return JSON.parse(event.body) as CarbonRequest;
+    return JSON.parse(event.body);
   } catch {
     return null;
   }
