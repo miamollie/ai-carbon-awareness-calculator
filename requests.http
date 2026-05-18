@@ -8,7 +8,7 @@
 
 @contentType = application/json
 @localBaseURL = http://localhost:3000
-@prodBaseURL = https://xx7dxyxbuj.execute-api.eu-north-1.amazonaws.com
+@prodBaseURL = https://bo6q5pon14.execute-api.eu-north-1.amazonaws.com
 @mcpSessionId = replace-after-calling-mcp-get
 
 ### --------------------------------------------------------
@@ -25,7 +25,6 @@ Content-Type: {{contentType}}
 
 {
   "model": "sonnet",
-  "task": "coding",
   "input_tokens": 50000,
   "output_tokens": 25000
 }
@@ -36,7 +35,6 @@ Content-Type: {{contentType}}
 
 {
   "model": "invalid-model",
-  "task": "chat",
   "input_tokens": 2000,
   "output_tokens": 300
 }
@@ -46,8 +44,7 @@ POST {{localBaseURL}}/carbon
 Content-Type: {{contentType}}
 
 {
-  "model": "sonnet",
-  "task": "chat"
+  "model": "sonnet"
 }
 
 ### --------------------------------------------------------
@@ -106,7 +103,6 @@ mcp-session-id: {{mcpSessionId}}
     "name": "calculate_AI_carbon_emissions",
     "arguments": {
       "model": "opus",
-      "task": "agentic",
       "input_tokens": 12000,
       "output_tokens": 6000
     }
@@ -143,7 +139,6 @@ Content-Type: {{contentType}}
 
 {
   "model": "sonnet",
-  "task": "document-generation",
   "input_tokens": 85000,
   "output_tokens": 40000
 }
@@ -200,7 +195,6 @@ mcp-session-id: {{mcpSessionId}}
     "name": "calculate_AI_carbon_emissions",
     "arguments": {
       "model": "haiku",
-      "task": "chat",
       "input_tokens": 5000,
       "output_tokens": 1200
     }

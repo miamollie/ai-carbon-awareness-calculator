@@ -56,23 +56,19 @@ export class RestStack extends cdk.Stack {
       },
     );
 
-    this.restHealthLambda = new NodejsFunction(
-      this,
-      "RestHealthFunction",
-      {
-        entry: "src/rest/health.ts",
-        handler: "handler",
-        runtime: lambda.Runtime.NODEJS_20_X,
-        timeout: cdk.Duration.seconds(2),
-        logGroup: restHealthLogGroup,
-        bundling: {
-          minify: true,
-        },
-        environment: {
-          REGION: region,
-        },
+    this.restHealthLambda = new NodejsFunction(this, "RestHealthFunction", {
+      entry: "src/rest/health.ts",
+      handler: "handler",
+      runtime: lambda.Runtime.NODEJS_20_X,
+      timeout: cdk.Duration.seconds(2),
+      logGroup: restHealthLogGroup,
+      bundling: {
+        minify: true,
       },
-    );
+      environment: {
+        REGION: region,
+      },
+    });
 
     // Rate limiting: Reserve Lambda concurrency
     (

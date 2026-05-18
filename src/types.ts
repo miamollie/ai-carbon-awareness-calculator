@@ -1,11 +1,27 @@
 // Model affects carbon calculation due to number of parameters
-export type ModelName = "haiku" | "sonnet" | "opus";
-// Task affects carbon calculation due to loading of skills (more input tokens) and output tokens
-export type TaskName = "chat" | "coding" | "document-generation" | "agentic";
+export type ModelName =
+  | "claude-haiku-4.5"
+  | "claude-sonnet-4.6"
+  | "claude-opus-4.6"
+  | "gpt-4o"
+  | "gemini-2.0"
+  | "llama-3.1-405b"
+  | "mixtral-8x22b"
+  | "grok-3"
+  | "palm-2"
+  | "qwen-2.5-72b";
+
+export type Equivalencies = Record<
+  string,
+  {
+    value: number | string;
+    unit: string;
+    range?: string;
+  }
+>;
 
 export interface CarbonRequest {
   model: ModelName;
-  task: TaskName;
   input_tokens: number;
   output_tokens: number;
 }
@@ -13,6 +29,5 @@ export interface CarbonRequest {
 export interface CarbonResponse {
   carbon_kg_co2e: number;
   model: ModelName;
-  task: TaskName;
-  equivalencies: Record<string, string>;
+  equivalencies: Equivalencies;
 }

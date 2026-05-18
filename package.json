@@ -12,7 +12,7 @@
     "sam:local": "npm run sam:prepare && sam local start-api -t cdk.out/CarbonCalcSingleRegion.template.json --port 3000",
     "cdk:diff": "cdk diff",
     "cdk:bootstrap": "cdk bootstrap",
-    "cdk:deploy": "cdk deploy --require-approval never",
+    "cdk:deploy": "cdk deploy --all --require-approval never",
     "cdk:destroy": "cdk destroy",
     "test": "echo \"No tests configured yet\" && exit 0"
   },

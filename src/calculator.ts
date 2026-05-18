@@ -1,19 +1,10 @@
-import { CarbonRequest, CarbonResponse, ModelName, TaskName } from "./types";
-import { MODELS } from "./data/models";
-import { EQUIVALENCIES } from "./data/equivalencies";
+import { CarbonRequest, CarbonResponse, ModelName } from "./types";
+import { LLM_CARBON_EMISSIONS } from "./data/models";
+import { getEquivalencies } from "./data/equivalencies";
 import { carbonRequestSchema } from "./schemas/carbon";
 
-type ModelFactors = { input: number; output: number; time: number };
-
-const MODEL_FACTORS: Record<string, ModelFactors> = MODELS;
-const EQUIVALENCY_FACTORS: Record<string, number> = EQUIVALENCIES;
-
 export function isValidModel(model: string): model is ModelName {
-  return model in MODEL_FACTORS;
-}
-
-function isValidTask(task: string): task is TaskName {
-  return ["chat", "coding", "document-generation", "agentic"].includes(task);
+  return model in LLM_CARBON_EMISSIONS;
 }
 
 export function validateRequest(payload: CarbonRequest): string | null {
@@ -26,9 +17,7 @@ export function validateRequest(payload: CarbonRequest): string | null {
     if (firstIssue.path[0] === "model") {
       return "unknown model";
     }
-    if (firstIssue.path[0] === "task") {
-      return "unknown task";
-    }
+
     if (
       firstIssue.path[0] === "input_tokens" ||
       firstIssue.path[0] === "output_tokens"
@@ -44,22 +33,15 @@ export function carbonPerToken(
   inputTokens: number,
   outputTokens: number,
   model: ModelName,
-  task: TaskName = "chat",
 ): number {
-  const factors = MODEL_FACTORS[model];
-  console.log(
-    `Calculating carbon for model=${model}, task=${task}, inputTokens=${inputTokens}, outputTokens=${outputTokens}, using factors:`,
-    factors,
-  );
-  return (inputTokens * factors.input + outputTokens * factors.output) / 1000;
-}
+  const factors = LLM_CARBON_EMISSIONS[model];
 
-export function getEquivalencies(kgCo2e: number): Record<string, string> {
-  return {
-    microwave_runs: `${Math.round(kgCo2e * EQUIVALENCY_FACTORS.microwave_runs)}-${Math.round(kgCo2e * EQUIVALENCY_FACTORS.microwave_runs * 1.15)}`,
-    driving_km: (kgCo2e * EQUIVALENCY_FACTORS.driving_km).toFixed(1),
-    tea_boiling: (kgCo2e * EQUIVALENCY_FACTORS.tea_boiling).toFixed(1),
-  };
+  // Divide by 1000 to convert grams to kilograms, since the factors are in grams CO2e per token
+  return (
+    (inputTokens * factors.inputCo2PerToken +
+      outputTokens * factors.outputCo2PerToken) /
+    1000
+  );
 }
 
 export function calculate(request: CarbonRequest): CarbonResponse {
@@ -68,13 +50,11 @@ export function calculate(request: CarbonRequest): CarbonResponse {
     request.input_tokens,
     request.output_tokens,
     model,
-    request.task,
   );
 
   return {
     carbon_kg_co2e: Number(carbonKg.toFixed(5)),
     model,
     equivalencies: getEquivalencies(carbonKg),
-    task: request.task,
   };
 }

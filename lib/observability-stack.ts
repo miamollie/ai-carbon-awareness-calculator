@@ -23,7 +23,7 @@ export class ObservabilityStack extends cdk.Stack {
       this,
       "CarbonAwarenessCalculatorDashboard",
       {
-        dashboardName: `carbon-calc-${region}`,
+        dashboardName: `carbon-awareness-calculator-${region}`,
       },
     );
 

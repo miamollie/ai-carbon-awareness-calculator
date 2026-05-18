@@ -51,7 +51,8 @@ export class ApiStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "McpPostEndpoint", {
       value: `${this.api.apiEndpoint}/mcp`,
-      description: "POST streamable-http MCP endpoint (use mcp-session-id header)",
+      description:
+        "POST streamable-http MCP endpoint (use mcp-session-id header)",
     });
 
     new cdk.CfnOutput(this, "McpDeleteEndpoint", {
