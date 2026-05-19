@@ -5,6 +5,7 @@
 # 2) Initialize MCP with POST /mcp (initialize request), then copy `mcp-session-id` response header into @mcpSessionId
 # 3) Send subsequent POST/GET/DELETE /mcp requests with the same `mcp-session-id` header
 # Public demo: no API key is required for any route.
+# NOTE: Do not set a custom `Host` header; API Gateway returns 403 for invalid host.
 
 @contentType = application/json
 @localBaseURL = http://localhost:3000
@@ -24,7 +25,7 @@ POST {{localBaseURL}}/carbon
 Content-Type: {{contentType}}
 
 {
-  "model": "sonnet",
+  "model": "claude-sonnet-4.6",
   "input_tokens": 50000,
   "output_tokens": 25000
 }
@@ -44,7 +45,7 @@ POST {{localBaseURL}}/carbon
 Content-Type: {{contentType}}
 
 {
-  "model": "sonnet"
+  "model": "claude-sonnet-4.6"
 }
 
 ### --------------------------------------------------------
@@ -102,7 +103,7 @@ mcp-session-id: {{mcpSessionId}}
   "params": {
     "name": "calculate_AI_carbon_emissions",
     "arguments": {
-      "model": "opus",
+      "model": "claude-opus-4.6",
       "input_tokens": 12000,
       "output_tokens": 6000
     }
@@ -138,7 +139,7 @@ POST {{prodBaseURL}}/carbon
 Content-Type: {{contentType}}
 
 {
-  "model": "sonnet",
+  "model": "claude-sonnet-4.6",
   "input_tokens": 85000,
   "output_tokens": 40000
 }
@@ -194,7 +195,7 @@ mcp-session-id: {{mcpSessionId}}
   "params": {
     "name": "calculate_AI_carbon_emissions",
     "arguments": {
-      "model": "haiku",
+      "model": "claude-haiku-4.5",
       "input_tokens": 5000,
       "output_tokens": 1200
     }

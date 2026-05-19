@@ -1,0 +1,606 @@
+{
+  "/CarbonCalcSingleRegion": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/ApiBaseUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiBaseUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:201:5)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/CarbonEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CarbonEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:206:5)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/HealthEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HealthEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:211:5)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/McpGetEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "McpGetEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:216:5)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/McpPostEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "McpPostEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:221:5)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals, @cspotcode/source-map-support...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals, @cspotcode/source-map-support...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/RestCalculatorLogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RestCalculatorLogGroup4C706E26"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LogGroup2 in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:16:32)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/RestHealthLogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RestHealthLogGroup84172BF6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LogGroup2 in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:25:32)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/CarbonCalculatorFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CarbonCalculatorFunction70F7CF43"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:30:30)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/RestHealthFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RestHealthFunctionAD7A86C4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:48:30)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/McpLogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "McpLogGroup7D3BF67E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LogGroup2 in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:62:25)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/McpFunction/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "McpFunctionF370A1F8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:67:23)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApi2E5E6447"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new HttpApi2 in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:95:17)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/CarbonAwarenessCalculatorDashboard/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CarbonAwarenessCalculatorDashboardB0D215E3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Dashboard2 in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:167:23)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals, @cspotcode/source-map-support...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/CarbonCalculatorFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CarbonCalculatorFunctionServiceRole6EC17EFC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:30:30)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/RestHealthFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RestHealthFunctionServiceRole630C375C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:48:30)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/McpFunction/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "McpFunctionServiceRoleF37F17FC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:67:23)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/DefaultStage/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiDefaultStageE86F6A7B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new HttpApi2 in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:95:17)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/POST--carbon/CarbonCalculatorIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiPOSTcarbonCarbonCalculatorIntegrationPermission24198F20"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:112:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/POST--carbon/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiPOSTcarbon83ADCF7C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:112:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--health/HealthIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGEThealthHealthIntegrationPermissionE93A5B39"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:121:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--health/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGEThealthBAE98FB1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:121:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--mcp/McpGetIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGETmcpMcpGetIntegrationPermission4533E2CE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:131:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--mcp/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGETmcpDE2D6F14"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:131:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/POST--mcp/McpPostIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiPOSTmcpMcpPostIntegrationPermission8537ECAC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:140:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/POST--mcp/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiPOSTmcp3F6144E9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:140:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/DELETE--mcp/McpDeleteIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiDELETEmcpMcpDeleteIntegrationPermissionA2C2B015"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:149:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/DELETE--mcp/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiDELETEmcp6B1752DB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:149:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--mcp-health/McpHealthIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGETmcphealthMcpHealthIntegrationPermission1C238A62"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:158:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--mcp-health/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGETmcphealthB9AC467A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:158:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/POST--carbon/CarbonCalculatorIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiPOSTcarbonCarbonCalculatorIntegrationD07A0182"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:112:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--health/HealthIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGEThealthHealthIntegrationF98A07B8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:121:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--mcp/McpGetIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGETmcpMcpGetIntegration717B712F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:131:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/POST--mcp/McpPostIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiPOSTmcpMcpPostIntegration6CD73E4A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:140:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/DELETE--mcp/McpDeleteIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiDELETEmcpMcpDeleteIntegration2D92AF1F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:149:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/CarbonCalcSingleRegion/AICarbonAwarenessApi/GET--mcp-health/McpHealthIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AICarbonAwarenessApiGETmcphealthMcpHealthIntegrationD9400DF5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/miamollie/Projects/personal/carbon-calc/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new CarbonAwarenessCalculatorStack (/Users/miamollie/Projects/personal/carbon-calc/lib/carbon-stack.ts:158:9)",
+        "<anonymous> (/Users/miamollie/Projects/personal/carbon-calc/bin/app-local.ts:8:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

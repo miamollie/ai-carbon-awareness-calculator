@@ -1,0 +1,66 @@
+{
+  "version": "53.0.0",
+  "files": {
+    "38e90c73b23a3670c1253a260a2e14c0aad20c459f5715dd420205f991008f5e": {
+      "displayName": "CarbonCalculatorFunction/Code",
+      "source": {
+        "path": "asset.38e90c73b23a3670c1253a260a2e14c0aad20c459f5715dd420205f991008f5e",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-north-1-9ad646bc": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-north-1",
+          "objectKey": "38e90c73b23a3670c1253a260a2e14c0aad20c459f5715dd420205f991008f5e.zip",
+          "region": "eu-north-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-north-1"
+        }
+      }
+    },
+    "a7b5116366e10c91c4f180d36b0b22d64702d0cb3c76b12d0a2f790e577bee9a": {
+      "displayName": "RestHealthFunction/Code",
+      "source": {
+        "path": "asset.a7b5116366e10c91c4f180d36b0b22d64702d0cb3c76b12d0a2f790e577bee9a",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-north-1-2032b72f": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-north-1",
+          "objectKey": "a7b5116366e10c91c4f180d36b0b22d64702d0cb3c76b12d0a2f790e577bee9a.zip",
+          "region": "eu-north-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-north-1"
+        }
+      }
+    },
+    "db051cb50c0b06d79203211c2d1e3866222fac9dc2c0530656a35fe34248179d": {
+      "displayName": "McpFunction/Code",
+      "source": {
+        "path": "asset.db051cb50c0b06d79203211c2d1e3866222fac9dc2c0530656a35fe34248179d",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-eu-north-1-b7a8f0f5": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-north-1",
+          "objectKey": "db051cb50c0b06d79203211c2d1e3866222fac9dc2c0530656a35fe34248179d.zip",
+          "region": "eu-north-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-north-1"
+        }
+      }
+    },
+    "7e32a5808d2afc82014ed5316ad22736d44ae4d3ffb5f813501c0822b80bdee8": {
+      "displayName": "CarbonCalcSingleRegion Template",
+      "source": {
+        "path": "CarbonCalcSingleRegion.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-eu-north-1-ed9d2c61": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-north-1",
+          "objectKey": "7e32a5808d2afc82014ed5316ad22736d44ae4d3ffb5f813501c0822b80bdee8.json",
+          "region": "eu-north-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-north-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
