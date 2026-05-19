@@ -44,7 +44,7 @@ export class RestStack extends cdk.Stack {
       {
         entry: "src/rest/handler.ts",
         handler: "handler",
-        runtime: lambda.Runtime.NODEJS_20_X,
+        runtime: lambda.Runtime.NODEJS_22_X,
         timeout: cdk.Duration.seconds(5),
         logGroup: calculatorLogGroup,
         bundling: {
@@ -59,7 +59,7 @@ export class RestStack extends cdk.Stack {
     this.restHealthLambda = new NodejsFunction(this, "RestHealthFunction", {
       entry: "src/rest/health.ts",
       handler: "handler",
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(2),
       logGroup: restHealthLogGroup,
       bundling: {

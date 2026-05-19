@@ -33,7 +33,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       {
         entry: "src/rest/handler.ts",
         handler: "handler",
-        runtime: lambda.Runtime.NODEJS_20_X,
+        runtime: lambda.Runtime.NODEJS_22_X,
         timeout: cdk.Duration.seconds(5),
         logGroup: calculatorLogGroup,
         bundling: {
@@ -48,7 +48,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
     const restHealthLambda = new NodejsFunction(this, "RestHealthFunction", {
       entry: "src/rest/health.ts",
       handler: "handler",
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(2),
       logGroup: restHealthLogGroup,
       bundling: {
@@ -67,7 +67,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
     const mcpLambda = new NodejsFunction(this, "McpFunction", {
       entry: "src/mcp/handler.ts",
       handler: "handler",
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_22_X,
       // NOTE: Max timeout used for Streamable HTTP responses
       timeout: cdk.Duration.seconds(29),
       logGroup: mcpLogGroup,

@@ -116,7 +116,7 @@ This section is for contributors maintaining and deploying this repository.
 
 Prerequisites:
 
-- Node.js 20+
+- Node.js 22+
 - npm
 - AWS CLI configured with credentials
 - AWS CDK v2 CLI

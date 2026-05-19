@@ -31,7 +31,7 @@ export class McpStack extends cdk.Stack {
     this.mcpLambda = new NodejsFunction(this, "McpFunction", {
       entry: "src/mcp/handler.ts",
       handler: "handler",
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(29), // Max timeout for Streamable HTTP responses
       logGroup: mcpLogGroup,
       bundling: {
