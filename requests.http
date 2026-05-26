@@ -9,7 +9,7 @@
 
 @contentType = application/json
 @localBaseURL = http://localhost:3000
-@prodBaseURL = https://bo6q5pon14.execute-api.eu-north-1.amazonaws.com
+@prodBaseURL = https://carbon.miamollie.dev
 @mcpSessionId = replace-after-calling-mcp-get
 
 ### --------------------------------------------------------
