@@ -1,5 +1,6 @@
 # CDK synthesis and deployment artifacts
 /cdk.out/
+/cdk.out.local/
 
 # Dependencies
 /node_modules/
