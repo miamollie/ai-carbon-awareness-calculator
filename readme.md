@@ -1,101 +1,98 @@
-# AI Carbon Awareness API
+# 🌱 AI Carbon Awareness API
 
-What this is
+> _Visibility over perfection._
+> A practical carbon-awareness layer for AI applications, assistants, and workflows.
 
-This repo is a practical carbon-awareness layer for AI usage.
+This project estimates the environmental impact of AI token usage, then translates those numbers into human-scale equivalencies so they're easier to reason about.
 
-It estimates emissions from token usage, then translates the result into human-scale equivalencies so teams can compare tradeoffs quickly (for example: "is this workflow more like a few km of driving, or something much bigger?").
+The goal is not perfect carbon accounting. The goal is awareness.
 
-Under the hood, it includes:
+---
 
-- A REST API for direct integration (`POST /carbon`)
-- An MCP server over Streamable HTTP (`/mcp`) so AI assistants can call the calculator as a tool
-- AWS CDK infrastructure split into API, REST, MCP, and observability stacks
-- CloudWatch dashboard widgets for usage and carbon metrics
+# 🌿 What’s Included
 
-## How to use
+Under the hood, this repo contains:
 
-This section is for people integrating the API into LLM products, assistants, or automations.
+- 🧮 A REST API for direct integration (`POST /carbon`)
+- 🤖 An MCP server over Streamable HTTP (`/mcp`) so LLMs can query the calculator as a tool
+- ☁️ AWS CDK infrastructure split into API, REST, MCP, and observability stacks
+- 📊 CloudWatch dashboards for usage and carbon metrics
+- 🪴 A lightweight data layer with values aggregated from other
 
-Integration paths:
+---
 
-1. REST API integration (`POST /carbon`) for direct app/server use
-2. MCP integration (`/mcp`) for assistant tool-calling workflows
+# 🔌 Integration Options
 
-Start by setting a base URL:
+You can integrate the calculator in two ways:
 
-- Local: `http://localhost:3000`
-- Deployed: your API Gateway URL from CDK outputs
+| Integration Type          | Best For                           |
+| ------------------------- | ---------------------------------- |
+| REST API (`POST /carbon`) | Apps, services, automations        |
+| MCP (`/mcp`)              | Claude/Desktop assistant workflows |
 
-Then verify connectivity:
+Ready-to-run examples live in:
 
-- `GET /health`
-- `GET /mcp-health`
-
-3. Use the request templates in [requests.http](requests.http) for ready-to-run REST and MCP examples.
-
-### Claude
-
-Use this project as an MCP tool backend for Claude/Desktop clients that support MCP Streamable HTTP.
-
-High-level flow:
-
-1. Initialize a session with `POST /mcp` (JSON-RPC `initialize`)
-2. Capture the `mcp-session-id` response header
-3. Call tools with `POST /mcp` and the same `mcp-session-id`
-4. End the session with `DELETE /mcp`
-
-The calculator tool name is:
-
-- `calculate_AI_carbon_emissions`
-
-Example `skill.md` style instruction block for Claude projects:
-
-```md
-# Carbon awareness tool usage
-
-When estimating the environmental impact of AI outputs, call the MCP tool:
-- Tool: calculate_AI_carbon_emissions
-- Required arguments:
-  - model (for example: claude-sonnet-4.6)
-  - input_tokens (integer)
-  - output_tokens (integer)
-
-After receiving the result:
-1. Report carbon_kg_co2e
-2. Include at least one equivalency (for example drivingKm or videoHours)
-3. If token counts are missing, ask the user for them before calculating
+```txt
+requests.http
 ```
 
-### ChatGPT
+---
 
-If your ChatGPT setup can call external APIs/tools, you can use the REST endpoint directly.
+## 🤖 Claude / MCP Usage
 
-Typical pattern:
+This project can act as an MCP tool backend for Claude clients that support Streamable HTTP.
 
-1. Send model + input/output token counts to `POST /carbon`
-2. Read back:
+### High-level flow
 
-- `carbon_kg_co2e`
-- `equivalencies` (driving km, streaming hours, smartphone charges, etc.)
+1. Initialize a session with:
 
-This is useful for prompt-level budgeting and model comparisons inside your workflow.
+```http
+POST /mcp
+```
 
-### API
+2. Capture the `mcp-session-id` response header
 
-See requests.http or follow this example cURL
+3. Call tools using the same session ID
+
+4. End the session with:
+
+```http
+DELETE /mcp
+```
+
+---
+
+### Available Tool
+
+```txt
+calculate_AI_carbon_emissions
+```
+
+### Required Arguments
+
+| Argument        | Example             |
+| --------------- | ------------------- |
+| `model`         | `claude-sonnet-4.6` |
+| `input_tokens`  | `50000`             |
+| `output_tokens` | `25000`             |
+
+---
+
+## 💬 REST API Usage
+
+Example request:
 
 ```bash
 curl -X POST "$BASE_URL/carbon" \
-	-H "Content-Type: application/json" \
-	-d '{
-		"model": "claude-sonnet-4.6",
-		"input_tokens": 50000,
-		"output_tokens": 25000
-	}'
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "claude-sonnet-4.6",
+    "input_tokens": 50000,
+    "output_tokens": 25000
+  }'
 ```
 
-Expected response shape:
+Example response:
 
 ```json
 {
@@ -110,25 +107,96 @@ Expected response shape:
 }
 ```
 
-## How to develop
 
-This section is for contributors maintaining and deploying this repository.
 
-Prerequisites:
+# 🌍 Carbon Methodology
 
-- Node.js 22+
-- npm
-- AWS CLI configured with credentials
-- AWS CDK v2 CLI
-- SAM CLI (for local API emulation)
+## Progress > Perfection
 
-Install dependencies:
+This project is intentionally pragmatic.
+
+The environmental impact of AI systems is difficult to measure precisely because providers expose very little verifiable infrastructure data. These estimates should therefore be treated as directional guidance, not formal reporting figures.
+
+The calculator exists to:
+
+- increase visibility
+- encourage better trade-off thinking
+- support more mindful AI usage
+
+—not to provide exact accounting.
+
+---
+
+## Method Summary
+
+The calculator:
+
+1. Takes input and output tokens
+2. Applies model-specific emissions factors
+3. Normalizes the result into kgCO2e
+4. Maps the output into everyday equivalencies
+
+Examples include:
+
+- driving distance
+- streaming hours
+- smartphone charges
+
+---
+
+## Data Sources
+
+The current estimates draw from a blend of:
+
+- 🤗 Hugging Face
+- 🌱 GreenPixie
+- ⚡ EcoLogits
+- public provider disclosures
+- benchmark analyses
+
+As better data becomes available, the dataset should evolve alongside it.
+
+---
+
+# 🚀 Quick Start
+
+## Local Development
 
 ```bash
 npm install
+npm run build
+npm run sam:local
 ```
 
-Build and validate:
+Your local endpoints will be:
+
+```txt
+REST API: http://localhost:3000
+MCP API:  http://localhost:3000/mcp
+```
+
+Health checks:
+
+```txt
+GET /health
+GET /mcp-health
+```
+
+---
+
+# 🏗️ Infrastructure & Deployment
+
+## Prerequisites
+
+- Node.js 22+
+- npm
+- AWS CLI configured
+- AWS CDK v2 CLI
+- SAM CLI
+
+---
+
+## Build & Validate
 
 ```bash
 npm run build
@@ -136,44 +204,21 @@ npm test
 npm run cdk:synth
 ```
 
-Run locally with SAM:
+---
 
-```bash
-npm run sam:local
-```
 
-Deploy to AWS:
+# 🌱 Why This Exists
 
-```bash
-npm run cdk:deploy
-```
+This project started as a personal experiment in applying green software principles to generative AI workflows.
 
-Helpful scripts:
+The more I researched AI emissions, the clearer it became that precision is often an illusion — but imperfect visibility is still far better than none.
 
-- `npm run cdk:diff` to inspect infra changes
-- `npm run cdk:bootstrap` to bootstrap an AWS account/region for first deploy
-- `npm run cdk:destroy` to tear down deployed resources
+So this repo is my attempt at making AI energy usage a little more tangible.
 
-## Carbon per Token Methodology
+---
 
-### Motivation: Progress > Perfection
+# 👋 Get In Touch
 
-Better to have _some_ kind of visibility than a perfect one. The API should be used to guide behaviour and create awareness and not as a precise reporting tool.
+Interested in green software, sustainable infrastructure, or AI observability?
 
-### Data
-
-The model factors are currently curated estimates for popular model families and versions.
-
-Method summary:
-
-1. Token counts are multiplied by per-model input/output factors
-2. Combined value is normalized into kg CO2e
-3. Result is mapped into everyday equivalencies for quick interpretation
-
-Sources include public model/provider disclosures, benchmark analyses, and published energy/emissions references.
-
-This dataset should be treated as directional guidance and updated as better numbers become available.
-
-## Get in touch!
-
-If you're interested in talking green tech, reach out from my [website](https://miamollie.dev).
+Reach out via my [website](https://miamollie.dev/) — always happy to chat 🌿
