@@ -12,10 +12,10 @@
     "sam:prepare": "npm run build && npm run cdk:synth:local",
     "sam:local": "npm run sam:prepare && sam local start-api -t cdk.out.local/CarbonCalcSingleRegion.template.json --port ${SAM_PORT:-3000}",
     "cdk:diff": "cdk diff",
-    "cdk:bootstrap": "cdk bootstrap",
     "cdk:deploy": "cdk deploy --all --require-approval never",
     "cdk:destroy": "cdk destroy",
-    "test": "echo \"No tests configured yet\" && exit 0"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.147",
@@ -24,7 +24,8 @@
     "aws-cdk": "^2.170.0",
     "esbuild": "^0.24.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.7"
   },
   "dependencies": {
     "@codegenie/serverless-express": "^4.17.1",
