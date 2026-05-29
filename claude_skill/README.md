@@ -15,8 +15,9 @@ When you ask Claude about the environmental impact of your session, this skill w
 **You ask**: "What is the environmental impact of this conversation?"
 
 **Claude responds**:
+
 > Based on our conversation so far (using Claude Sonnet 4.6):
-> 
+>
 > - **Carbon emissions**: 0.00057 kg CO₂e
 > - **That's equivalent to**:
 >   - Streaming a video for 2.4 minutes
@@ -28,6 +29,7 @@ When you ask Claude about the environmental impact of your session, this skill w
 ## Trigger Phrases
 
 The skill activates when you ask questions like:
+
 - "What is the environmental impact of this conversation?"
 - "How much carbon has this session emitted?"
 - "What's the carbon footprint of our chat?"
@@ -40,16 +42,14 @@ Or any variation asking about carbon, emissions, environmental impact, or carbon
 
 ✅ **Works with all Claude models** — Sonnet, Opus, Haiku, etc.  
 ✅ **Real-world comparisons** — Kettles boiled, km driven, video watched, etc.  
-✅ **Contextual insights** — Explains whether impact is high or low  
-✅ **Helpful suggestions** — Recommends efficiency improvements (e.g., switching to Haiku for routine tasks)  
-✅ **No authentication required** — Uses publicly available API  
-✅ **Transparent methodology** — Based on published research and provider disclosures  
+✅ **Transparent methodology** — Based on published research and provider disclosures
 
 ## How It Works
 
 ### The Calculation
 
 The API multiplies token counts by per-model input/output factors and converts the result to kg CO₂e. These factors are based on:
+
 - Public model/provider disclosures
 - Benchmark analyses
 - Published energy/emissions references
@@ -63,9 +63,10 @@ The API multiplies token counts by per-model input/output factors and converts t
 
 ## API Details
 
-**Endpoint**: `https://bo6q5pon14.execute-api.eu-north-1.amazonaws.com/carbon`
+**Endpoint**: `https://carbon.miamollie.dev/carbon`
 
 **Request Format**:
+
 ```json
 {
   "model": "claude-sonnet-4.6",
@@ -75,6 +76,7 @@ The API multiplies token counts by per-model input/output factors and converts t
 ```
 
 **Response Includes**:
+
 - `carbon_kg_co2e` — Total emissions in kg CO₂ equivalent
 - `model` — The model name from your request
 - `equivalencies` — Real-world comparisons (driving, video streaming, kettle boils, etc.)
@@ -84,49 +86,29 @@ The API multiplies token counts by per-model input/output factors and converts t
 ✅ Users curious about AI's environmental footprint  
 ✅ Teams evaluating sustainability of AI workflows  
 ✅ Developers building carbon-aware applications  
-✅ Anyone interested in tech's environmental impact  
+✅ Anyone interested in tech's environmental impact
 
 ## Limitations
 
 - **Session data extraction** depends on Claude having access to token usage metadata
 - **Historical data** not available — only current session metrics
 - **API limits** — no authentication, so rate limits may apply
-- **Model coverage** — calculations most accurate for well-known Claude models
+- **Model coverage** — calculations most accurate for well-known models
 
 ## Want More Info?
 
 The Carbon Awareness Calculator was created to increase transparency around AI's environmental impact. Learn more at: **https://miamollie.dev**
 
 The project includes:
+
 - REST API for direct integration
 - MCP server for tool-calling workflows
-- AWS CDK infrastructure
 - CloudWatch dashboards for tracking usage
 
 ## Support
 
 If you have questions, suggestions, or want to contribute improvements:
+
 - Check the project's main documentation
 - Verify the API health at `/health` or `/mcp-health` endpoints
 - Ensure your request format matches the spec above
-
-## Example Outputs by Model
-
-### Claude Haiku (most efficient)
-Low token counts produce near-zero emissions
-- ~0.000006 kg CO₂e for 1K input, 500 output
-
-### Claude Sonnet (balanced)
-Sweet spot of capability and efficiency
-- ~0.00057 kg CO₂e for 30K input, 15K output
-
-### Claude Opus (most capable)
-Higher emissions reflect greater computational power
-- ~0.0015 kg CO₂e for 30K input, 15K output
-
----
-
-**Version**: 1.0  
-**Created**: 2026  
-**License**: Open Source  
-**Status**: Ready to share
