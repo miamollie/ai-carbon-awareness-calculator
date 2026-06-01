@@ -78,7 +78,9 @@ describe("rest handler", () => {
 
     const parsed = JSON.parse(response.body || "{}");
     expect(parsed.model).toBe("gpt-4o");
-    expect(parsed.carbon_kg_co2e).toBe(0.00006);
-    expect(parsed.equivalencies).toHaveProperty("drivingKm");
+    expect(parsed.energy_wh).toBe(0.15);
+    expect(parsed.carbon_kg_co2e_range.low).toBe(0.000008);
+    expect(parsed.carbon_kg_co2e_range.high).toBe(0.000105);
+    expect(parsed.equivalencies).toHaveProperty("microwaveSeconds");
   });
 });

@@ -9,7 +9,11 @@ export const handler = async (
   if (!payload) {
     return jsonResponse(400, {
       error: "Invalid JSON body",
-      example: { model: "sonnet", input_tokens: 50000, output_tokens: 25000 },
+      example: {
+        model: "claude-sonnet-4.6",
+        input_tokens: 50000,
+        output_tokens: 25000,
+      },
     });
   }
 

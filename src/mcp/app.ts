@@ -34,11 +34,11 @@ function buildMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "calculate_AI_carbon_emissions",
+    "calculate_ai_energy_impact",
     {
-      title: "Calculate AI CarbonEmissions",
+      title: "Calculate AI Energy Impact",
       description:
-        "Calculate carbon emissions (kg CO2e) from AI model token usage",
+        "Calculate AI energy use (Wh) and low/high carbon ranges from token usage",
       inputSchema: carbonRequestShape,
       outputSchema: carbonResponseShape,
     },
