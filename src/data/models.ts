@@ -5,10 +5,6 @@ export interface ModelEnergyProfile {
   inputWhPer1kTokens: number;
   outputWhPer1kTokens: number;
   source: string;
-  suggestedWhRange?: {
-    low: number;
-    high: number;
-  };
 }
 
 export const LLM_ENERGY_ESTIMATES: Record<ModelName, ModelEnergyProfile> = {
@@ -35,60 +31,36 @@ export const LLM_ENERGY_ESTIMATES: Record<ModelName, ModelEnergyProfile> = {
     inputWhPer1kTokens: 0.09,
     outputWhPer1kTokens: 0.55,
     source: "Epoch AI GPT-4o query-energy discussion, calibrated to typical chat mix",
-    suggestedWhRange: {
-      low: 0.2,
-      high: 1.5,
-    },
   },
   "gpt-4o-mini": {
     params: "~8B-12B",
     inputWhPer1kTokens: 0.03,
     outputWhPer1kTokens: 0.18,
     source: "Best-guess estimate for a smaller OpenAI chat model",
-    suggestedWhRange: {
-      low: 0.08,
-      high: 0.6,
-    },
   },
   "gpt-4.1": {
     params: "~120B+",
     inputWhPer1kTokens: 0.08,
     outputWhPer1kTokens: 0.5,
     source: "Best-guess estimate for a mainstream OpenAI general model",
-    suggestedWhRange: {
-      low: 0.15,
-      high: 1.2,
-    },
   },
   "gpt-4.1-mini": {
     params: "~8B-12B",
     inputWhPer1kTokens: 0.025,
     outputWhPer1kTokens: 0.14,
     source: "Best-guess estimate for a lightweight OpenAI general model",
-    suggestedWhRange: {
-      low: 0.06,
-      high: 0.45,
-    },
   },
   "o1": {
     params: "unknown",
     inputWhPer1kTokens: 0.12,
     outputWhPer1kTokens: 0.9,
     source: "Best-guess estimate for a reasoning-heavy OpenAI model",
-    suggestedWhRange: {
-      low: 0.4,
-      high: 3.0,
-    },
   },
   "o3-mini": {
     params: "unknown",
     inputWhPer1kTokens: 0.05,
     outputWhPer1kTokens: 0.28,
     source: "Best-guess estimate for a smaller reasoning model",
-    suggestedWhRange: {
-      low: 0.15,
-      high: 0.9,
-    },
   },
   "gemini-2.0": {
     params: "~180B+",
