@@ -96,21 +96,27 @@ Example response:
 
 ```json
 {
-  "energy_wh": 7.5,
+  "energy_wh": 0.365,
+  "impact_level": "light",
   "model": "claude-sonnet-4.6",
   "carbon_kg_co2e_range": {
-    "low": 0.000375,
-    "high": 0.00525
+    "low": 0.000018,
+    "high": 0.000255
   },
   "grid_intensity_assumptions_gco2e_per_kwh": {
     "low": 50,
     "high": 700
   },
   "equivalencies": {
-    "microwaveSeconds": {
-      "value": 23,
-      "unit": "seconds at 1200W"
+    "evMilesDriven": {
+      "value": 0.0012,
+      "unit": "miles in a typical EV (~300 Wh/mile)"
     }
+  },
+  "methodology": {
+    "source_type": "estimated",
+    "confidence": "medium",
+    "notes": "Primary output is request energy in Wh, with carbon range derived from grid-intensity assumptions."
   }
 }
 ```
@@ -144,6 +150,7 @@ The calculator:
 3. Produces Wh as the primary output metric
 4. Converts Wh into low/high kgCO2e using grid-intensity assumptions
 5. Maps the output into everyday equivalencies
+6. Labels the session with a simple impact level such as light, moderate, heavy, or very_heavy
 
 Examples include:
 

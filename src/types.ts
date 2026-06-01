@@ -19,6 +19,21 @@ export type Equivalencies = Record<
   }
 >;
 
+export type ImpactLevel = "light" | "moderate" | "heavy" | "very_heavy";
+
+export type MethodologySourceType =
+  | "estimated"
+  | "benchmark_proxy"
+  | "measured";
+
+export type MethodologyConfidence = "low" | "medium" | "high";
+
+export interface Methodology {
+  source_type: MethodologySourceType;
+  confidence: MethodologyConfidence;
+  notes: string;
+}
+
 export interface CarbonRange {
   low: number;
   high: number;
@@ -37,8 +52,10 @@ export interface CarbonRequest {
 
 export interface CarbonResponse {
   energy_wh: number;
+  impact_level: ImpactLevel;
   model: ModelName;
   carbon_kg_co2e_range: CarbonRange;
   grid_intensity_assumptions_gco2e_per_kwh: GridIntensityAssumptions;
   equivalencies: Equivalencies;
+  methodology: Methodology;
 }

@@ -6,6 +6,22 @@ import { carbonRequestSchema } from "./schemas/carbon";
 export const DEFAULT_LOW_GRID_INTENSITY_G_PER_KWH = 50;
 export const DEFAULT_HIGH_GRID_INTENSITY_G_PER_KWH = 700;
 
+export function impactLevelFromWh(energyWh: number) {
+  if (energyWh < 0.5) {
+    return "light" as const;
+  }
+
+  if (energyWh < 5) {
+    return "moderate" as const;
+  }
+
+  if (energyWh < 20) {
+    return "heavy" as const;
+  }
+
+  return "very_heavy" as const;
+}
+
 export function isValidModel(model: string): model is ModelName {
   return model in LLM_ENERGY_ESTIMATES;
 }
@@ -70,6 +86,7 @@ export function calculate(request: CarbonRequest): CarbonResponse {
 
   return {
     energy_wh: Number(energyWh.toFixed(4)),
+    impact_level: impactLevelFromWh(energyWh),
     model,
     carbon_kg_co2e_range: carbonRange,
     grid_intensity_assumptions_gco2e_per_kwh: {
@@ -77,5 +94,11 @@ export function calculate(request: CarbonRequest): CarbonResponse {
       high: DEFAULT_HIGH_GRID_INTENSITY_G_PER_KWH,
     },
     equivalencies: getEquivalencies(energyWh),
+    methodology: {
+      source_type: "estimated",
+      confidence: "medium",
+      notes:
+        "Primary output is request energy in Wh, with carbon range derived from grid-intensity assumptions.",
+    },
   };
 }

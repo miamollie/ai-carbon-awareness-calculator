@@ -14,6 +14,7 @@ export const carbonRequestShape = {
 
 export const carbonResponseShape = {
   energy_wh: z.number().min(0),
+  impact_level: z.enum(["light", "moderate", "heavy", "very_heavy"]),
   model: z.enum(modelNames),
   carbon_kg_co2e_range: z.object({
     low: z.number().min(0),
@@ -30,6 +31,11 @@ export const carbonResponseShape = {
       unit: z.string(),
     }),
   ),
+  methodology: z.object({
+    source_type: z.enum(["estimated", "benchmark_proxy", "measured"]),
+    confidence: z.enum(["low", "medium", "high"]),
+    notes: z.string(),
+  }),
 };
 
 export const carbonRequestSchema = z.object(carbonRequestShape);

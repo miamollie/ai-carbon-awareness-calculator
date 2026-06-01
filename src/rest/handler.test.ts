@@ -80,13 +80,13 @@ describe("rest handler", () => {
   it("returns 200 with calculated payload for valid request", async () => {
     const response = asStructuredResponse(
       await handler(
-      makeEvent(
-        JSON.stringify({
-          model: "gpt-4o",
-          input_tokens: 1000,
-          output_tokens: 500,
-        }),
-      ),
+        makeEvent(
+          JSON.stringify({
+            model: "gpt-4o",
+            input_tokens: 1000,
+            output_tokens: 500,
+          }),
+        ),
       ),
     );
 
@@ -95,9 +95,12 @@ describe("rest handler", () => {
 
     const parsed = JSON.parse(response.body || "{}");
     expect(parsed.model).toBe("gpt-4o");
-    expect(parsed.energy_wh).toBe(0.15);
-    expect(parsed.carbon_kg_co2e_range.low).toBe(0.000008);
-    expect(parsed.carbon_kg_co2e_range.high).toBe(0.000105);
-    expect(parsed.equivalencies).toHaveProperty("microwaveSeconds");
+    expect(parsed.energy_wh).toBe(0.365);
+    expect(parsed.impact_level).toBe("light");
+    expect(parsed.carbon_kg_co2e_range.low).toBe(0.000018);
+    expect(parsed.carbon_kg_co2e_range.high).toBe(0.000255);
+    expect(parsed.equivalencies).toHaveProperty("evMilesDriven");
+    expect(parsed.equivalencies).toHaveProperty("iphoneCharges");
+    expect(parsed.methodology.source_type).toBe("estimated");
   });
 });
