@@ -14,8 +14,8 @@
     "cdk:diff": "cdk diff",
     "cdk:deploy": "cdk deploy --all --require-approval never",
     "cdk:destroy": "cdk destroy",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run src/*.test.ts src/**/*.test.ts",
+    "test:watch": "vitest src/*.test.ts src/**/*.test.ts"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.147",

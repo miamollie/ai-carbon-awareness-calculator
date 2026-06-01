@@ -29,7 +29,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
 
     const calculatorLambda = new NodejsFunction(
       this,
-      "CarbonCalculatorFunction",
+      "EnergyImpactCalculatorFunction",
       {
         entry: "src/rest/handler.ts",
         handler: "handler",
@@ -92,8 +92,8 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       mcpLambda.node.defaultChild as lambda.CfnFunction
     ).reservedConcurrentExecutions = 50;
 
-    const api = new apigwv2.HttpApi(this, "AICarbonAwarenessApi", {
-      description: `AICarbon calculator API (${props.env?.region || defaultRegion})`,
+    const api = new apigwv2.HttpApi(this, "AIEnergyAwarenessApi", {
+      description: `AIEnergy impact calculator API (${props.env?.region || defaultRegion})`,
       corsPreflight: {
         allowMethods: [
           apigwv2.CorsHttpMethod.POST,
@@ -110,10 +110,10 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
     // Express middleware rate limiting is applied within MCP Lambda (mcp-app.ts)
 
     api.addRoutes({
-      path: "/carbon",
+      path: "/energy",
       methods: [apigwv2.HttpMethod.POST],
       integration: new integrations.HttpLambdaIntegration(
-        "CarbonCalculatorIntegration",
+        "EnergyImpactCalculatorIntegration",
         calculatorLambda,
       ),
     });
@@ -166,9 +166,9 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
 
     const dashboard = new cloudwatch.Dashboard(
       this,
-      "CarbonAwarenessCalculatorDashboard",
+      "EnergyAwarenessCalculatorDashboard",
       {
-        dashboardName: `carbon-calc-${props.env?.region || defaultRegion}`,
+        dashboardName: `energy-calc-${props.env?.region || defaultRegion}`,
       },
     );
 
@@ -182,15 +182,15 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
         left: [calculatorLambda.metricDuration({ statistic: "Average" })],
       }),
       new cloudwatch.GraphWidget({
-        title: "Carbon Per Invocation (kgCO2e)",
+        title: "Energy Per Invocation (Wh)",
         left: [
           new cloudwatch.Metric({
-            namespace: "CarbonAwarenessCalculator",
-            metricName: "CarbonPerInvocationKgCO2e",
+            namespace: "EnergyAwarenessCalculator",
+            metricName: "EnergyPerInvocationWh",
             statistic: "Average",
             period: cdk.Duration.minutes(5),
             dimensionsMap: {
-              Service: "carbon-calc",
+              Service: "energy-calc",
               Transport: "rest",
             },
           }),
@@ -200,12 +200,12 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "ApiBaseUrl", {
       value: api.apiEndpoint,
-      description: "Base URL for carbon calculator API",
+      description: "Base URL for AI energy impact calculator API",
     });
 
-    new cdk.CfnOutput(this, "CarbonEndpoint", {
-      value: `${api.apiEndpoint}/carbon`,
-      description: "POST endpoint for carbon calculations",
+    new cdk.CfnOutput(this, "EnergyEndpoint", {
+      value: `${api.apiEndpoint}/energy`,
+      description: "POST endpoint for energy impact calculations",
     });
 
     new cdk.CfnOutput(this, "HealthEndpoint", {

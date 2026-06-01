@@ -40,7 +40,7 @@ export class RestStack extends cdk.Stack {
     // Lambda functions
     this.calculatorLambda = new NodejsFunction(
       this,
-      "CarbonCalculatorFunction",
+      "EnergyImpactCalculatorFunction",
       {
         entry: "src/rest/handler.ts",
         handler: "handler",
@@ -80,10 +80,10 @@ export class RestStack extends cdk.Stack {
 
     // REST routes
     props.api.addRoutes({
-      path: "/carbon",
+      path: "/energy",
       methods: [apigwv2.HttpMethod.POST],
       integration: new integrations.HttpLambdaIntegration(
-        "CarbonCalculatorIntegration",
+        "EnergyImpactCalculatorIntegration",
         this.calculatorLambda,
       ),
     });

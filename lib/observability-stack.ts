@@ -21,9 +21,9 @@ export class ObservabilityStack extends cdk.Stack {
     // Dashboard
     const dashboard = new cloudwatch.Dashboard(
       this,
-      "CarbonAwarenessCalculatorDashboard",
+      "EnergyAwarenessCalculatorDashboard",
       {
-        dashboardName: `carbon-awareness-calculator-${region}`,
+        dashboardName: `energy-awareness-calculator-${region}`,
       },
     );
 
@@ -59,18 +59,18 @@ export class ObservabilityStack extends cdk.Stack {
       }),
     );
 
-    // Carbon metric (emitted from REST handler)
+    // Energy metric (emitted from REST handler)
     dashboard.addWidgets(
       new cloudwatch.GraphWidget({
-        title: "Carbon Per Invocation (kgCO2e)",
+        title: "Energy Per Invocation (Wh)",
         left: [
           new cloudwatch.Metric({
-            namespace: "CarbonAwarenessCalculator",
-            metricName: "CarbonPerInvocationKgCO2e",
+            namespace: "EnergyAwarenessCalculator",
+            metricName: "EnergyPerInvocationWh",
             statistic: "Average",
             period: cdk.Duration.minutes(5),
             dimensionsMap: {
-              Service: "carbon-calc",
+              Service: "energy-calc",
               Transport: "rest",
             },
           }),

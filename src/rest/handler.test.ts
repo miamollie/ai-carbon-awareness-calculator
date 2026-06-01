@@ -1,12 +1,25 @@
-import type { APIGatewayProxyEventV2 } from "aws-lambda";
+import type {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResultV2,
+  APIGatewayProxyStructuredResultV2,
+} from "aws-lambda";
 import { describe, expect, it } from "vitest";
 import { handler } from "./handler";
+
+function asStructuredResponse(
+  response: APIGatewayProxyResultV2,
+): APIGatewayProxyStructuredResultV2 {
+  if (typeof response === "string") {
+    throw new Error("Expected a structured API Gateway response");
+  }
+  return response;
+}
 
 function makeEvent(body: string | null): APIGatewayProxyEventV2 {
   return {
     version: "2.0",
-    routeKey: "POST /calculate",
-    rawPath: "/calculate",
+    routeKey: "POST /energy",
+    rawPath: "/energy",
     rawQueryString: "",
     headers: {},
     requestContext: {
@@ -16,13 +29,13 @@ function makeEvent(body: string | null): APIGatewayProxyEventV2 {
       domainPrefix: "example",
       http: {
         method: "POST",
-        path: "/calculate",
+        path: "/energy",
         protocol: "HTTP/1.1",
         sourceIp: "127.0.0.1",
         userAgent: "vitest",
       },
       requestId: "req-1",
-      routeKey: "POST /calculate",
+      routeKey: "POST /energy",
       stage: "$default",
       time: "01/Jan/2026:00:00:00 +0000",
       timeEpoch: 0,
@@ -34,7 +47,7 @@ function makeEvent(body: string | null): APIGatewayProxyEventV2 {
 
 describe("rest handler", () => {
   it("returns 400 for invalid json", async () => {
-    const response = await handler(makeEvent("{"));
+    const response = asStructuredResponse(await handler(makeEvent("{")));
 
     expect(response.statusCode).toBe(400);
     expect(response.headers?.["Cache-Control"]).toBe("no-cache, no-store");
@@ -44,13 +57,15 @@ describe("rest handler", () => {
   });
 
   it("returns 400 for invalid schema body", async () => {
-    const response = await handler(
+    const response = asStructuredResponse(
+      await handler(
       makeEvent(
         JSON.stringify({
           model: "gpt-4o",
           input_tokens: -1,
           output_tokens: 50,
         }),
+      ),
       ),
     );
 
@@ -63,13 +78,15 @@ describe("rest handler", () => {
   });
 
   it("returns 200 with calculated payload for valid request", async () => {
-    const response = await handler(
+    const response = asStructuredResponse(
+      await handler(
       makeEvent(
         JSON.stringify({
           model: "gpt-4o",
           input_tokens: 1000,
           output_tokens: 500,
         }),
+      ),
       ),
     );
 

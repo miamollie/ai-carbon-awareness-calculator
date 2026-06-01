@@ -20,8 +20,8 @@
 GET {{localBaseURL}}/health
 Accept: {{contentType}}
 
-### Local REST carbon calculation
-POST {{localBaseURL}}/carbon
+### Local REST energy impact calculation
+POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
 
 {
@@ -31,7 +31,7 @@ Content-Type: {{contentType}}
 }
 
 ### Local REST validation failure (unknown model)
-POST {{localBaseURL}}/carbon
+POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
 
 {
@@ -41,7 +41,7 @@ Content-Type: {{contentType}}
 }
 
 ### Local REST invalid payload (missing required token fields)
-POST {{localBaseURL}}/carbon
+POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
 
 {
@@ -101,7 +101,7 @@ mcp-session-id: {{mcpSessionId}}
   "id": 2,
   "method": "tools/call",
   "params": {
-    "name": "calculate_AI_carbon_emissions",
+    "name": "calculate_ai_energy_impact",
     "arguments": {
       "model": "claude-opus-4.6",
       "input_tokens": 12000,
@@ -134,8 +134,8 @@ mcp-session-id: {{mcpSessionId}}
 GET {{prodBaseURL}}/health
 Accept: {{contentType}}
 
-### Production REST carbon calculation
-POST {{prodBaseURL}}/carbon
+### Production REST energy impact calculation
+POST {{prodBaseURL}}/energy
 Content-Type: {{contentType}}
 
 {
@@ -193,7 +193,7 @@ mcp-session-id: {{mcpSessionId}}
   "id": 12,
   "method": "tools/call",
   "params": {
-    "name": "calculate_AI_carbon_emissions",
+    "name": "calculate_ai_energy_impact",
     "arguments": {
       "model": "claude-haiku-4.5",
       "input_tokens": 5000,

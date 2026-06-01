@@ -1,14 +1,14 @@
-# AI Carbon Awareness Calculator Skill
+# AI Energy Awareness Calculator Skill
 
-A Claude skill that calculates the environmental impact of your conversations and translates it into relatable, real-world equivalencies.
+A Claude skill that estimates the energy impact of your conversations and translates it into relatable, real-world equivalencies.
 
 ## What It Does
 
 When you ask Claude about the environmental impact of your session, this skill will:
 
 1. **Extract your session metrics** — reads your token usage (input/output) and the model you're using
-2. **Calculate carbon emissions** — sends this data to the AI Carbon Awareness API
-3. **Present results conversationally** — converts technical CO₂e measurements into human-friendly equivalencies
+2. **Calculate energy usage** — sends this data to the AI Energy Awareness API
+3. **Present results conversationally** — reports Wh first, with low/high CO₂e ranges and equivalencies
 
 ## Example Usage
 
@@ -18,11 +18,12 @@ When you ask Claude about the environmental impact of your session, this skill w
 
 > Based on our conversation so far (using Claude Sonnet 4.6):
 >
-> - **Carbon emissions**: 0.00057 kg CO₂e
+> - **Energy usage**: 1.6 Wh
+> - **Carbon range**: 0.00008-0.00112 kg CO₂e (low vs high grid intensity)
 > - **That's equivalent to**:
->   - Streaming a video for 2.4 minutes
->   - Half a kettle boil
->   - About 2 meters of car travel
+>   - Running a microwave for about 5 seconds
+>   - Charging a phone battery by a small fraction
+>   - Running a laptop for about 2 minutes
 >
 > This conversation has had a negligible environmental impact! 🌱
 
@@ -48,7 +49,9 @@ Or any variation asking about carbon, emissions, environmental impact, or carbon
 
 ### The Calculation
 
-The API multiplies token counts by per-model input/output factors and converts the result to kg CO₂e. These factors are based on:
+The API multiplies token counts by per-model input/output energy factors and returns Wh as the primary output. It then derives low/high CO₂e ranges using grid-intensity assumptions.
+
+These factors are based on:
 
 - Public model/provider disclosures
 - Benchmark analyses
@@ -63,7 +66,7 @@ The API multiplies token counts by per-model input/output factors and converts t
 
 ## API Details
 
-**Endpoint**: `https://carbon.miamollie.dev/carbon`
+**Endpoint**: `https://carbon.miamollie.dev/energy`
 
 **Request Format**:
 
@@ -77,9 +80,10 @@ The API multiplies token counts by per-model input/output factors and converts t
 
 **Response Includes**:
 
-- `carbon_kg_co2e` — Total emissions in kg CO₂ equivalent
+- `energy_wh` — Total energy usage in watt-hours
 - `model` — The model name from your request
-- `equivalencies` — Real-world comparisons (driving, video streaming, kettle boils, etc.)
+- `carbon_kg_co2e_range` — Low/high CO₂e range based on grid intensity assumptions
+- `equivalencies` — Real-world energy comparisons (microwave runtime, laptop runtime, phone charges, etc.)
 
 ## Who Should Use This?
 

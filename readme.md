@@ -1,9 +1,9 @@
-# 🌱 AI Carbon Awareness API
+# 🌱 AI Energy Awareness API
 
 > _Visibility over perfection._
 > A practical carbon-awareness layer for AI applications, assistants, and workflows.
 
-This project estimates the environmental impact of AI token usage, then translates those numbers into human-scale equivalencies so they're easier to reason about.
+This project estimates the energy usage of AI token interactions, then translates those numbers into human-scale equivalencies and low/high carbon ranges based on grid intensity.
 
 The goal is not perfect carbon accounting. The goal is awareness.
 
@@ -13,10 +13,10 @@ The goal is not perfect carbon accounting. The goal is awareness.
 
 Under the hood, this repo contains:
 
-- 🧮 A REST API for direct integration (`POST /carbon`)
+- 🧮 A REST API for direct integration (`POST /energy`)
 - 🤖 An MCP server over Streamable HTTP (`/mcp`) so LLMs can query the calculator as a tool
 - ☁️ AWS CDK infrastructure split into API, REST, MCP, and observability stacks
-- 📊 CloudWatch dashboards for usage and carbon metrics
+- 📊 CloudWatch dashboards for usage and energy metrics
 - 🪴 A lightweight data layer with values aggregated from other
 
 ---
@@ -27,7 +27,7 @@ You can integrate the calculator in two ways:
 
 | Integration Type          | Best For                           |
 | ------------------------- | ---------------------------------- |
-| REST API (`POST /carbon`) | Apps, services, automations        |
+| REST API (`POST /energy`) | Apps, services, automations        |
 | MCP (`/mcp`)              | Claude/Desktop assistant workflows |
 
 Ready-to-run examples live in:
@@ -65,7 +65,7 @@ DELETE /mcp
 ### Available Tool
 
 ```txt
-calculate_AI_carbon_emissions
+calculate_ai_energy_impact
 ```
 
 ### Required Arguments
@@ -83,7 +83,7 @@ calculate_AI_carbon_emissions
 Example request:
 
 ```bash
-curl -X POST "$BASE_URL/carbon" \
+curl -X POST "$BASE_URL/energy" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "claude-sonnet-4.6",
@@ -96,12 +96,20 @@ Example response:
 
 ```json
 {
-  "carbon_kg_co2e": 0.0012,
+  "energy_wh": 7.5,
   "model": "claude-sonnet-4.6",
+  "carbon_kg_co2e_range": {
+    "low": 0.000375,
+    "high": 0.00525
+  },
+  "grid_intensity_assumptions_gco2e_per_kwh": {
+    "low": 50,
+    "high": 700
+  },
   "equivalencies": {
-    "drivingKm": {
-      "value": "0.00",
-      "unit": "km"
+    "microwaveSeconds": {
+      "value": 23,
+      "unit": "seconds at 1200W"
     }
   }
 }
@@ -109,7 +117,7 @@ Example response:
 
 
 
-# 🌍 Carbon Methodology
+# 🌍 Energy Methodology
 
 ## Progress > Perfection
 
@@ -132,9 +140,10 @@ The calculator exists to:
 The calculator:
 
 1. Takes input and output tokens
-2. Applies model-specific emissions factors
-3. Normalizes the result into kgCO2e
-4. Maps the output into everyday equivalencies
+2. Applies model-specific energy factors
+3. Produces Wh as the primary output metric
+4. Converts Wh into low/high kgCO2e using grid-intensity assumptions
+5. Maps the output into everyday equivalencies
 
 Examples include:
 
@@ -155,6 +164,16 @@ The current estimates draw from a blend of:
 - benchmark analyses
 
 As better data becomes available, the dataset should evolve alongside it.
+
+## Watt hours -> CO₂e
+Where data is available, it is typically reported in Watt hours, the standard unit of energy. Since carbon is a byproduct of most energy use, we can use this as a proxy for emissions. However, the actual emissions will vary widely based on the type of energy available in a region, grid intensity, and other factors. This calculator uses the following approximation:
+
+Using a typical grid intensity of 0.4 kg CO₂e/kWh (400 g/kWh):
+
+1 Wh ≈ 0.4 g CO₂e
+100 Wh ≈ 40 g CO₂e
+1 kWh ≈ 0.4 kg CO₂e
+10 kWh ≈ 4 kg CO₂e
 
 ---
 

@@ -22,7 +22,7 @@ Serverless (Lambda) → Only pays for execution → Zero idle
 ┌─────────────┐
 │   Client    │ (Claude, ChatGPT, etc.)
 └──────┬──────┘
-       │ HTTP POST to /carbon
+       │ HTTP POST to /energy
        ↓
 ┌─────────────────────────┐
 │   API Gateway (REST)    │
@@ -40,7 +40,7 @@ Serverless (Lambda) → Only pays for execution → Zero idle
        ↓ Return JSON + timestamp
 ┌─────────────────────────┐
 │  CloudWatch Logs        │
-│  (Track carbon profile) │
+│  (Track energy profile) │
 └─────────────────────────┘
 ```
 

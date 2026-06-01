@@ -36,8 +36,8 @@ export class ApiStack extends cdk.Stack {
     const region = props.region || defaultRegion;
 
     // HTTP API with CORS
-    this.api = new apigwv2.HttpApi(this, "AICarbonAwarenessApi", {
-      description: `AICarbon calculator API (${region})`,
+    this.api = new apigwv2.HttpApi(this, "AIEnergyAwarenessApi", {
+      description: `AIEnergy impact calculator API (${region})`,
       corsPreflight: {
         allowMethods: [
           apigwv2.CorsHttpMethod.POST,
@@ -114,7 +114,7 @@ export class ApiStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "ApiBaseUrl", {
       value: publicBaseUrl,
-      description: "Base URL for carbon calculator API",
+      description: "Base URL for AI energy impact calculator API",
     });
 
     new cdk.CfnOutput(this, "ApiGatewayEndpoint", {
@@ -122,9 +122,9 @@ export class ApiStack extends cdk.Stack {
       description: "Underlying API Gateway endpoint (always available)",
     });
 
-    new cdk.CfnOutput(this, "CarbonEndpoint", {
-      value: `${publicBaseUrl}/carbon`,
-      description: "POST endpoint for carbon calculations",
+    new cdk.CfnOutput(this, "EnergyEndpoint", {
+      value: `${publicBaseUrl}/energy`,
+      description: "POST endpoint for energy impact calculations",
     });
 
     new cdk.CfnOutput(this, "HealthEndpoint", {
