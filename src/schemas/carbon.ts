@@ -1,9 +1,9 @@
 import * as z from "zod/v4";
-import { LLM_CARBON_EMISSIONS } from "../data/models";
+import { LLM_ENERGY_ESTIMATES } from "../data/models";
 
-const modelNames = Object.keys(LLM_CARBON_EMISSIONS) as [
-  keyof typeof LLM_CARBON_EMISSIONS,
-  ...(keyof typeof LLM_CARBON_EMISSIONS)[],
+const modelNames = Object.keys(LLM_ENERGY_ESTIMATES) as [
+  keyof typeof LLM_ENERGY_ESTIMATES,
+  ...(keyof typeof LLM_ENERGY_ESTIMATES)[],
 ];
 
 export const carbonRequestShape = {
@@ -13,14 +13,21 @@ export const carbonRequestShape = {
 };
 
 export const carbonResponseShape = {
-  carbon_kg_co2e: z.number().min(0),
+  energy_wh: z.number().min(0),
   model: z.enum(modelNames),
+  carbon_kg_co2e_range: z.object({
+    low: z.number().min(0),
+    high: z.number().min(0),
+  }),
+  grid_intensity_assumptions_gco2e_per_kwh: z.object({
+    low: z.number().positive(),
+    high: z.number().positive(),
+  }),
   equivalencies: z.record(
     z.string(),
     z.object({
-      value: z.union([z.number(), z.string()]),
+      value: z.number(),
       unit: z.string(),
-      range: z.string().optional(),
     }),
   ),
 };

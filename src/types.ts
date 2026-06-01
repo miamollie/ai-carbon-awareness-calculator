@@ -14,11 +14,20 @@ export type ModelName =
 export type Equivalencies = Record<
   string,
   {
-    value: number | string;
+    value: number;
     unit: string;
-    range?: string;
   }
 >;
+
+export interface CarbonRange {
+  low: number;
+  high: number;
+}
+
+export interface GridIntensityAssumptions {
+  low: number;
+  high: number;
+}
 
 export interface CarbonRequest {
   model: ModelName;
@@ -27,7 +36,9 @@ export interface CarbonRequest {
 }
 
 export interface CarbonResponse {
-  carbon_kg_co2e: number;
+  energy_wh: number;
   model: ModelName;
+  carbon_kg_co2e_range: CarbonRange;
+  grid_intensity_assumptions_gco2e_per_kwh: GridIntensityAssumptions;
   equivalencies: Equivalencies;
 }
