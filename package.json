@@ -9,7 +9,7 @@
     "mcp:lambda": "node -e \"require('./dist/src/mcp/mcp-lambda.js')\"",
     "cdk:synth": "cdk synth",
     "cdk:synth:local": "cdk synth --quiet -a \"npx ts-node --prefer-ts-exts bin/app-local.ts\" CarbonCalcSingleRegion --output cdk.out.local",
-    "sam:prepare": "npm run build && npm run cdk:synth:local",
+    "sam:prepare": "rm -rf cdk.out.local && npm run cdk:synth:local",
     "sam:local": "npm run sam:prepare && sam local start-api -t cdk.out.local/CarbonCalcSingleRegion.template.json --port ${SAM_PORT:-3000}",
     "cdk:diff": "cdk diff",
     "cdk:deploy": "cdk deploy --all --require-approval never",

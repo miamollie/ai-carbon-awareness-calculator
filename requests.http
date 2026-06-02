@@ -4,15 +4,13 @@
 # Usage in VS Code REST Client:
 # 0) Start local API: npm run sam:local
 # 1) Update local and prod base URLs
-# 2) Initialize MCP with POST /mcp (initialize request), then copy `mcp-session-id` response header into @mcpSessionId
-# 3) Send subsequent POST/GET/DELETE /mcp requests with the same `mcp-session-id` header
+# 2) MCP runs stateless: use POST /mcp only
 # Public demo: no API key is required for any route.
 # NOTE: Do not set a custom `Host` header; API Gateway returns 403 for invalid host.
 
 @contentType = application/json
 @localBaseURL = http://localhost:3000
 @prodBaseURL = https://carbon.miamollie.dev
-@mcpSessionId = replace-after-calling-mcp-get
 
 ### --------------------------------------------------------
 ### LOCAL REST REQUESTS
@@ -25,6 +23,7 @@ Accept: {{contentType}}
 ### Local REST energy impact calculation (medium class example)
 POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
   "model": "claude-sonnet-4.6",
@@ -35,6 +34,7 @@ Content-Type: {{contentType}}
 ### Local REST validation failure (unknown model)
 POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
   "model": "invalid-model",
@@ -45,6 +45,7 @@ Content-Type: {{contentType}}
 ### Local REST invalid payload (missing required token fields)
 POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
   "model": "claude-sonnet-4.6"
@@ -58,9 +59,10 @@ Content-Type: {{contentType}}
 GET {{localBaseURL}}/mcp-health
 Accept: {{contentType}}
 
-### Local MCP initialize session (run this first; copy mcp-session-id response header)
+### Local MCP initialize
 POST {{localBaseURL}}/mcp
 Content-Type: {{contentType}}
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -76,15 +78,10 @@ Content-Type: {{contentType}}
   }
 }
 
-### Local MCP optional stream connect (requires mcp-session-id header)
-GET {{localBaseURL}}/mcp
-Accept: text/event-stream
-mcp-session-id: {{mcpSessionId}}
-
 ### Local MCP list tools
 POST {{localBaseURL}}/mcp
 Content-Type: {{contentType}}
-mcp-session-id: {{mcpSessionId}}
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -96,7 +93,7 @@ mcp-session-id: {{mcpSessionId}}
 ### Local MCP call calculate_emissions
 POST {{localBaseURL}}/mcp
 Content-Type: {{contentType}}
-mcp-session-id: {{mcpSessionId}}
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -112,22 +109,6 @@ mcp-session-id: {{mcpSessionId}}
   }
 }
 
-### Local MCP invalid session check
-POST {{localBaseURL}}/mcp
-Content-Type: {{contentType}}
-mcp-session-id: bad-session
-
-{
-  "jsonrpc": "2.0",
-  "id": 3,
-  "method": "tools/list",
-  "params": {}
-}
-
-### Local MCP terminate session
-DELETE {{localBaseURL}}/mcp
-mcp-session-id: {{mcpSessionId}}
-
 ### --------------------------------------------------------
 ### PRODUCTION REQUESTS
 ### --------------------------------------------------------
@@ -139,6 +120,7 @@ Accept: {{contentType}}
 ### Production REST energy impact calculation (medium class example)
 POST {{prodBaseURL}}/energy
 Content-Type: {{contentType}}
+Accept: {{contentType}}
 
 {
   "model": "claude-sonnet-4.6",
@@ -150,9 +132,10 @@ Content-Type: {{contentType}}
 GET {{prodBaseURL}}/mcp-health
 Accept: {{contentType}}
 
-### Production MCP initialize session (run first; copy mcp-session-id response header)
+### Production MCP initialize
 POST {{prodBaseURL}}/mcp
 Content-Type: {{contentType}}
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -168,15 +151,10 @@ Content-Type: {{contentType}}
   }
 }
 
-### Production MCP optional stream connect (requires mcp-session-id header)
-GET {{prodBaseURL}}/mcp
-Accept: text/event-stream
-mcp-session-id: {{mcpSessionId}}
-
 ### Production MCP list tools
 POST {{prodBaseURL}}/mcp
 Content-Type: {{contentType}}
-mcp-session-id: {{mcpSessionId}}
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -188,7 +166,7 @@ mcp-session-id: {{mcpSessionId}}
 ### Production MCP call calculate_emissions
 POST {{prodBaseURL}}/mcp
 Content-Type: {{contentType}}
-mcp-session-id: {{mcpSessionId}}
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -204,6 +182,3 @@ mcp-session-id: {{mcpSessionId}}
   }
 }
 
-### Production MCP terminate session
-DELETE {{prodBaseURL}}/mcp
-mcp-session-id: {{mcpSessionId}}

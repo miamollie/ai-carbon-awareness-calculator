@@ -132,20 +132,9 @@ export class ApiStack extends cdk.Stack {
       description: "GET endpoint for service health",
     });
 
-    new cdk.CfnOutput(this, "McpGetEndpoint", {
-      value: `${publicBaseUrl}/mcp`,
-      description: "GET streamable-http MCP endpoint",
-    });
-
     new cdk.CfnOutput(this, "McpPostEndpoint", {
       value: `${publicBaseUrl}/mcp`,
-      description:
-        "POST streamable-http MCP endpoint (use mcp-session-id header)",
-    });
-
-    new cdk.CfnOutput(this, "McpDeleteEndpoint", {
-      value: `${publicBaseUrl}/mcp`,
-      description: "DELETE streamable-http MCP endpoint (terminate session)",
+      description: "POST streamable-http MCP endpoint (stateless mode)",
     });
 
     new cdk.CfnOutput(this, "McpHealthEndpoint", {
