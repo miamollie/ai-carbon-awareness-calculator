@@ -1,0 +1,53 @@
+{
+  "test_cases": [
+    {
+      "id": "tc_01",
+      "name": "Basic environmental impact query",
+      "user_query": "What is the environmental impact of this conversation?",
+      "sample_session_data": {
+        "model": "claude-sonnet-4.6",
+        "input_tokens": 5000,
+        "output_tokens": 2000
+      },
+      "expected_api_path": "/carbon",
+      "expected_response_fields": [
+        "carbon_kg_co2e",
+        "model",
+        "equivalencies"
+      ]
+    },
+    {
+      "id": "tc_02",
+      "name": "High token conversation",
+      "user_query": "How much carbon has this session emitted?",
+      "sample_session_data": {
+        "model": "claude-opus-4.6",
+        "input_tokens": 50000,
+        "output_tokens": 25000
+      },
+      "expected_behavior": "Report kg CO2e, include 2-4 equivalencies, and note directional confidence"
+    },
+    {
+      "id": "tc_03",
+      "name": "Token data missing",
+      "user_query": "What is our carbon footprint?",
+      "sample_session_data": {
+        "model": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "expected_behavior": "Ask user for model, input_tokens, and output_tokens before API call"
+    },
+    {
+      "id": "tc_04",
+      "name": "Unknown model validation",
+      "user_query": "Calculate emissions for this model",
+      "sample_session_data": {
+        "model": "unknown-model",
+        "input_tokens": 1000,
+        "output_tokens": 500
+      },
+      "expected_behavior": "Handle 400 validation error and request corrected model name"
+    }
+  ]
+}

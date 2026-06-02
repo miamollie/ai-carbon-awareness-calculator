@@ -1,14 +1,14 @@
-# AI Energy Awareness Calculator Skill
+# AI Carbon Awareness Calculator Skill
 
-A Claude skill that estimates the energy impact of your conversations and translates it into relatable, real-world equivalencies.
+A Claude skill that estimates the carbon impact of your conversations and translates it into relatable, real-world equivalencies.
 
 ## What It Does
 
 When you ask Claude about the environmental impact of your session, this skill will:
 
 1. **Extract your session metrics** — reads your token usage (input/output) and the model you're using
-2. **Calculate energy usage** — sends this data to the AI Energy Awareness API
-3. **Present results conversationally** — reports Wh first, with low/high CO₂e ranges and equivalencies
+2. **Calculate carbon impact** — sends this data to the Carbon Awareness API
+3. **Present results conversationally** — reports kg CO2e first, with real-world equivalencies
 
 ## Example Usage
 
@@ -18,12 +18,11 @@ When you ask Claude about the environmental impact of your session, this skill w
 
 > Based on our conversation so far (using Claude Sonnet 4.6):
 >
-> - **Energy usage**: 3.6 Wh
-> - **Carbon range**: 0.00018-0.00252 kg CO2e (low vs high grid intensity)
+> - **Carbon estimate**: 0.00013 kg CO2e
 > - **That's equivalent to**:
->   - Running a microwave for about 11 seconds
->   - Charging a phone battery by about 0.3 charges
->   - Running a laptop for about 4 minutes
+>   - ~0.00 km of driving
+>   - ~0 hours of video streaming
+>   - ~0 smartphone charges
 >
 > This conversation has had a negligible environmental impact! 🌱
 
@@ -43,21 +42,21 @@ Or any variation asking about carbon, emissions, environmental impact, or carbon
 
 ✅ **Works with all Claude models** — Sonnet, Opus, Haiku, etc.  
 ✅ **Real-world comparisons** — Kettles boiled, km driven, video watched, etc.  
-✅ **Transparent methodology** — Class-based estimate with clear anchor and multipliers
+✅ **Transparent methodology** — Directional estimate with class-based assumptions
 
 ## How It Works
 
 ### The Calculation
 
-The API maps model names to a model size class, then applies class multipliers to a GPT-4o anchor baseline.
+The API estimates impact from model and token usage using a class-based method.
 
-Current assumptions:
+Current assumptions include:
 
-- Anchor: 240 kWh per million tokens (0.24 Wh per 1k input tokens)
-- Output tokens weighted 3x vs input tokens
-- Class multipliers: small 0.5x, medium 1x, large 2x, huge 4x
+- Class-based estimate anchored to a GPT-4o baseline
+- Output tokens weighted higher than input tokens
+- Model class influences estimated intensity
 
-It returns Wh as the primary output and then derives low/high CO2e ranges from grid-intensity assumptions.
+The current production API response is carbon-first (`carbon_kg_co2e`) plus equivalencies.
 
 ### Important Notes
 
@@ -68,7 +67,7 @@ It returns Wh as the primary output and then derives low/high CO2e ranges from g
 
 ## API Details
 
-**Endpoint**: `https://carbon.miamollie.dev/energy`
+**Endpoint**: `https://carbon.miamollie.dev/carbon`
 
 **Request Format**:
 
@@ -82,10 +81,9 @@ It returns Wh as the primary output and then derives low/high CO2e ranges from g
 
 **Response Includes**:
 
-- `energy_wh` — Total energy usage in watt-hours
+- `carbon_kg_co2e` — Total estimated carbon emissions
 - `model` — The model name from your request
-- `carbon_kg_co2e_range` — Low/high CO₂e range based on grid intensity assumptions
-- `equivalencies` — Real-world energy comparisons (microwave runtime, laptop runtime, phone charges, etc.)
+- `equivalencies` — Real-world comparisons (driving km, streaming hours, phone charges, etc.)
 
 ## Who Should Use This?
 
