@@ -76,7 +76,7 @@ export function carbonRangeFromEnergyWh(
 }
 
 export function calculate(request: Request): Response {
-  const model = (request.model ?? "sonnet") as ModelName;
+  const model = (request.model ?? "claude-sonnet-4.6") as ModelName;
   const profile = LLM_ENERGY_ESTIMATES[model];
   const energyWh = energyWhFromTokens(
     request.input_tokens,
