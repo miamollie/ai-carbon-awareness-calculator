@@ -40,7 +40,6 @@ Serverless (Lambda) → Only pays for execution → Zero idle
        ↓ Return JSON + timestamp
 ┌─────────────────────────┐
 │  CloudWatch Logs        │
-│  (Track energy profile) │
 └─────────────────────────┘
 ```
 
@@ -61,18 +60,9 @@ Serverless (Lambda) → Only pays for execution → Zero idle
 
 ### 3. Caching
 
-<!-- //todo check this is happening -->
-
 - Identical requests return cached response
 - Avoid re-computing
 
-### 4. GreenOps
-
-- Log every execution
-- CloudWatch tracks:
-  - Carbon per request
-  - Lambda overhead
-  - Execution time
 
 ### 5. Transparent Estimation Model
 
@@ -88,7 +78,7 @@ Original approach is documented in [multi-region-deployment.md](multi-region-dep
 
 ## Multi-LLM Support
 
-Same Lambda backend works for:
+Same serverless backend works for:
 
 - Claude (via MCP)
 - ChatGPT (via API endpoint directly, no MCP wrapper needed)
