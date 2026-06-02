@@ -8,7 +8,7 @@ export const handler = async (): Promise<APIGatewayProxyResultV2> => {
     },
     body: JSON.stringify({
       status: "ok",
-      service: "carbon-calc",
+      service: "ai-energy-awareness",
       timestamp: new Date().toISOString(),
     }),
   };

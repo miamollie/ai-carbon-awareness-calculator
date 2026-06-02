@@ -1,7 +1,7 @@
-import { CarbonRequest, CarbonResponse, ModelName } from "./types";
+import { Request, Response, ModelName } from "./types";
 import { LLM_ENERGY_ESTIMATES } from "./data/models";
 import { getEquivalencies } from "./data/equivalencies";
-import { carbonRequestSchema } from "./schemas/carbon";
+import { requestSchema } from "./schemas";
 
 export const DEFAULT_LOW_GRID_INTENSITY_G_PER_KWH = 50;
 export const DEFAULT_HIGH_GRID_INTENSITY_G_PER_KWH = 700;
@@ -26,8 +26,8 @@ export function isValidModel(model: string): model is ModelName {
   return model in LLM_ENERGY_ESTIMATES;
 }
 
-export function validateRequest(payload: CarbonRequest): string | null {
-  const parsedPayload = carbonRequestSchema.safeParse(payload);
+export function validateRequest(payload: Request): string | null {
+  const parsedPayload = requestSchema.safeParse(payload);
   if (!parsedPayload.success) {
     const firstIssue = parsedPayload.error.issues[0];
     if (!firstIssue) {
@@ -75,7 +75,7 @@ export function carbonRangeFromEnergyWh(
   };
 }
 
-export function calculate(request: CarbonRequest): CarbonResponse {
+export function calculate(request: Request): Response {
   const model = (request.model ?? "sonnet") as ModelName;
   const profile = LLM_ENERGY_ESTIMATES[model];
   const energyWh = energyWhFromTokens(

@@ -1,9 +1,9 @@
 # AI Energy Awareness API
 
 Visibility over perfection.
-A practical carbon-awareness layer for AI applications, assistants, and workflows.
+A practical energy-awareness layer for AI applications, assistants, and workflows.
 
-This project estimates AI request energy from token counts, then translates that energy into human-scale equivalents and low/high carbon ranges based on grid intensity assumptions.
+This project estimates AI request energy from token counts, then translates that energy into human-scale equivalents and low/high ranges based on grid intensity assumptions.
 
 ## What Is Included
 

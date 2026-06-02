@@ -23,7 +23,7 @@ describe("health handler", () => {
 
     const parsed = JSON.parse(response.body || "{}");
     expect(parsed.status).toBe("ok");
-    expect(parsed.service).toBe("carbon-calc");
+    expect(parsed.service).toBe("ai-energy-awareness");
     expect(Number.isNaN(Date.parse(parsed.timestamp))).toBe(false);
   });
 });

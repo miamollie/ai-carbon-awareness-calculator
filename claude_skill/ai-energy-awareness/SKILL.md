@@ -1,9 +1,9 @@
 ---
-name: carbon-awareness
+name: ai-energy-awareness
 description: Calculate the environmental impact of AI conversations and sessions. Use this skill whenever a user asks about carbon footprint, environmental impact, emissions, or sustainability of the current chat/session (for example: "What is the environmental impact of this conversation?", "How much carbon has this session emitted?", or "What is the carbon footprint of this chat?").
 ---
 
-# AI Carbon Awareness Skill
+# AI Energy Awareness Skill
 
 This skill converts model + token usage into an API-based environmental impact summary with practical equivalencies.
 
@@ -11,10 +11,9 @@ This skill converts model + token usage into an API-based environmental impact s
 
 Use this skill when users ask about:
 
-- carbon footprint of the current conversation
+- energy consumption of the current conversation
 - emissions from this session
 - whether this chat is environmentally expensive
-- comparisons between model/session impact
 
 ## Inputs Required
 

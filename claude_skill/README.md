@@ -1,13 +1,13 @@
-# AI Carbon Awareness Calculator Skill
+# AI Energy Awareness Calculator Skill
 
-A Claude skill that estimates the carbon impact of your conversations and translates it into relatable, real-world equivalencies.
+A Claude skill that estimates the environmental impact of your conversations and translates it into relatable, real-world equivalencies.
 
 ## What It Does
 
 When you ask Claude about the environmental impact of your session, this skill will:
 
 1. **Extract your session metrics** — reads your token usage (input/output) and the model you're using
-2. **Calculate carbon impact** — sends this data to the Carbon Awareness API
+2. **Calculate impact** — sends this data to the Energy Awareness API
 3. **Present results conversationally** — reports kg CO2e first, with real-world equivalencies
 
 ## Example Usage
@@ -56,8 +56,6 @@ Current assumptions include:
 - Output tokens weighted higher than input tokens
 - Model class influences estimated intensity
 
-The current production API response is carbon-first (`carbon_kg_co2e`) plus equivalencies.
-
 ### Important Notes
 
 - Results are **directional guidance**, not precise measurements
@@ -67,7 +65,7 @@ The current production API response is carbon-first (`carbon_kg_co2e`) plus equi
 
 ## API Details
 
-**Endpoint**: `https://carbon.miamollie.dev/carbon`
+**Endpoint**: `https://carbon.miamollie.dev/energy`
 
 **Request Format**:
 
@@ -81,7 +79,8 @@ The current production API response is carbon-first (`carbon_kg_co2e`) plus equi
 
 **Response Includes**:
 
-- `carbon_kg_co2e` — Total estimated carbon emissions
+- `carbon_kg_co2e_range` — Range of estimated carbon emissions
+- `energy_wh` — Estimated whatt hours of energy used
 - `model` — The model name from your request
 - `equivalencies` — Real-world comparisons (driving km, streaming hours, phone charges, etc.)
 
@@ -89,25 +88,15 @@ The current production API response is carbon-first (`carbon_kg_co2e`) plus equi
 
 ✅ Users curious about AI's environmental footprint  
 ✅ Teams evaluating sustainability of AI workflows  
-✅ Developers building carbon-aware applications  
 ✅ Anyone interested in tech's environmental impact
 
 ## Limitations
 
 - **Session data extraction** depends on Claude having access to token usage metadata
-- **Historical data** not available — only current session metrics
+- **Historical data** not available yet — only current session metrics
 - **API limits** — no authentication, so rate limits may apply
 - **Model coverage** — calculations most accurate for well-known models
-
-## Want More Info?
-
-The Carbon Awareness Calculator was created to increase transparency around AI's environmental impact. Learn more at: **https://miamollie.dev**
-
-The project includes:
-
-- REST API for direct integration
-- MCP server for tool-calling workflows
-- CloudWatch dashboards for tracking usage
+- **Accuracy** — all values are derived from assumptions, and include approximations
 
 ## Support
 

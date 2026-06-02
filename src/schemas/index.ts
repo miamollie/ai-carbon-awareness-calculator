@@ -6,13 +6,13 @@ const modelNames = Object.keys(LLM_ENERGY_ESTIMATES) as [
   ...(keyof typeof LLM_ENERGY_ESTIMATES)[],
 ];
 
-export const carbonRequestShape = {
+export const requestShape = {
   model: z.enum(modelNames),
   input_tokens: z.number().int().min(0).max(1000000),
   output_tokens: z.number().int().min(0).max(1000000),
 };
 
-export const carbonResponseShape = {
+export const responseShape = {
   energy_wh: z.number().min(0),
   impact_level: z.enum(["light", "moderate", "heavy", "very_heavy"]),
   model: z.enum(modelNames),
@@ -38,5 +38,5 @@ export const carbonResponseShape = {
   }),
 };
 
-export const carbonRequestSchema = z.object(carbonRequestShape);
-export const carbonResponseSchema = z.object(carbonResponseShape);
+export const requestSchema = z.object(requestShape);
+export const responseSchema = z.object(responseShape);

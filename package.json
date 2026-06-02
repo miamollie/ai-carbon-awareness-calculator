@@ -1,8 +1,8 @@
 {
-  "name": "carbon-calc",
+  "name": "ai-energy-awareness",
   "version": "0.1.0",
   "private": true,
-  "description": "Single-region CDK MVP for Lambda carbon calculator",
+  "description": "Single-region CDK MVP for Lambda AI energy awareness tool",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",

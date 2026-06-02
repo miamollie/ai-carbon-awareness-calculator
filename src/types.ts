@@ -49,13 +49,13 @@ export interface GridIntensityAssumptions {
   high: number;
 }
 
-export interface CarbonRequest {
+export interface Request {
   model: ModelName;
   input_tokens: number;
   output_tokens: number;
 }
 
-export interface CarbonResponse {
+export interface Response {
   energy_wh: number;
   impact_level: ImpactLevel;
   model: ModelName;
