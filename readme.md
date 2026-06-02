@@ -14,10 +14,10 @@ This project estimates AI request energy from token counts, then translates that
 
 ## Integration Options
 
-| Integration Type | Best For |
-| --- | --- |
-| REST API (`POST /energy`) | Apps, services, automations |
-| MCP (`/mcp`) | Claude/Desktop assistant workflows |
+| Integration Type          | Best For                           |
+| ------------------------- | ---------------------------------- |
+| REST API (`POST /energy`) | Apps, services, automations        |
+| MCP (`/mcp`)              | Claude/Desktop assistant workflows |
 
 Ready-to-run examples are in `requests.http`.
 
@@ -36,11 +36,11 @@ Available tool:
 
 Required arguments:
 
-| Argument | Example |
-| --- | --- |
-| `model` | `claude-sonnet-4.6` |
-| `input_tokens` | `50000` |
-| `output_tokens` | `25000` |
+| Argument        | Example             |
+| --------------- | ------------------- |
+| `model`         | `claude-sonnet-4.6` |
+| `input_tokens`  | `50000`             |
+| `output_tokens` | `25000`             |
 
 ## REST API Usage
 
@@ -73,20 +73,16 @@ Example response:
   },
   "equivalencies": {
     "evMilesDriven": {
-      "value": 0.1,
-      "unit": "miles in a typical EV (~300 Wh/mile)"
+      "value": 0.12,
+      "unit": "miles in a typical EV (~250 Wh/mile)"
     },
-    "iphoneCharges": {
-      "value": 2.5,
-      "unit": "iPhone battery charges (~12 Wh each)"
+    "kettleMinutesBoiled": {
+      "value": 1,
+      "unit": "minutes boiling water in a 1500W electric kettle"
     },
-    "microwaveSeconds": {
-      "value": 90,
-      "unit": "seconds at 1200W"
-    },
-    "laptopMinutes": {
-      "value": 30,
-      "unit": "minutes at 60W"
+    "shredderMinutes": {
+      "value": 5,
+      "unit": "minutes running a 360W paper shredder"
     },
     "ledBulbHours": {
       "value": 3,

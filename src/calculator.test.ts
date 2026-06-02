@@ -49,8 +49,8 @@ describe("calculator", () => {
     expect(result.impact_level).toBe("very_heavy");
     expect(result.carbon_kg_co2e_range.low).toBe(0.048);
     expect(result.carbon_kg_co2e_range.high).toBe(0.672);
-    expect(result.equivalencies).toHaveProperty("iphoneCharges");
-    expect(result.equivalencies.iphoneCharges.value).toBe(80);
+    expect(result.equivalencies).toHaveProperty("kettleMinutesBoiled");
+    expect(result.equivalencies.kettleMinutesBoiled.value).toBe(38);
     expect(result.methodology.source_type).toBe("estimated");
   });
 });

@@ -100,7 +100,7 @@ describe("rest handler", () => {
     expect(parsed.carbon_kg_co2e_range.low).toBe(0.00003);
     expect(parsed.carbon_kg_co2e_range.high).toBe(0.00042);
     expect(parsed.equivalencies).toHaveProperty("evMilesDriven");
-    expect(parsed.equivalencies).toHaveProperty("iphoneCharges");
+    expect(parsed.equivalencies).toHaveProperty("kettleMinutesBoiled");
     expect(parsed.methodology.source_type).toBe("estimated");
   });
 });

@@ -14,7 +14,7 @@ export interface ModelEnergyProfile {
 
 // GPT-4o anchor: 240 kWh / 1,000,000 tokens = 0.24 Wh / 1,000 tokens.
 const BASE_INPUT_WH_PER_1K_TOKENS = 0.24;
-const OUTPUT_TOKEN_MULTIPLIER = 3;
+const OUTPUT_TOKEN_MULTIPLIER = 3; // More costly because input is processed in parallel, output isn't, and serial processing is more intense
 
 // Determined multipliers: keep medium as anchor (1x), and scale by class.
 // This keeps estimates in plausible ranges while preserving class separation.
@@ -32,8 +32,7 @@ function buildProfile(
 ): ModelEnergyProfile {
   const classMultiplier = CLASS_MULTIPLIERS[modelClass];
   const inputWhPer1kTokens = BASE_INPUT_WH_PER_1K_TOKENS * classMultiplier;
-  const outputWhPer1kTokens =
-    inputWhPer1kTokens * OUTPUT_TOKEN_MULTIPLIER;
+  const outputWhPer1kTokens = inputWhPer1kTokens * OUTPUT_TOKEN_MULTIPLIER;
 
   return {
     modelClass,
