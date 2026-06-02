@@ -15,6 +15,7 @@ Request used:
 ```
 
 Observed production endpoint behavior:
+
 - `POST /energy`: returns `404 Not Found`
 - `POST /carbon`: returns `200` with `carbon_kg_co2e`, `model`, `equivalencies`
 

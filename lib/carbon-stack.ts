@@ -220,7 +220,8 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "McpPostEndpoint", {
       value: `${api.apiEndpoint}/mcp`,
-      description: "POST streamable-http MCP endpoint (use mcp-session-id header)",
+      description:
+        "POST streamable-http MCP endpoint (use mcp-session-id header)",
     });
   }
 }

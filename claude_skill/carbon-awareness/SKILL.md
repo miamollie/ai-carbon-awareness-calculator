@@ -10,6 +10,7 @@ This skill converts model + token usage into an API-based environmental impact s
 ## When To Use
 
 Use this skill when users ask about:
+
 - carbon footprint of the current conversation
 - emissions from this session
 - whether this chat is environmentally expensive
@@ -18,6 +19,7 @@ Use this skill when users ask about:
 ## Inputs Required
 
 Collect or confirm:
+
 - `model` (example: `claude-sonnet-4.6`)
 - `input_tokens` (integer)
 - `output_tokens` (integer)
@@ -27,9 +29,11 @@ If token metadata is not available in session context, ask the user for these va
 ## API Endpoint
 
 Use production endpoint:
-- `POST https://carbon.miamollie.dev/carbon`
+
+- `POST https://carbon.miamollie.dev/energy`
 
 Request body:
+
 ```json
 {
   "model": "claude-sonnet-4.6",
@@ -45,7 +49,11 @@ Request body:
   "carbon_kg_co2e": 0.00013,
   "model": "claude-sonnet-4.6",
   "equivalencies": {
-    "microwaveRuns": { "value": 0, "range": "0-0", "unit": "runs (2 min each)" },
+    "microwaveRuns": {
+      "value": 0,
+      "range": "0-0",
+      "unit": "runs (2 min each)"
+    },
     "drivingKm": { "value": "0.00", "unit": "km" },
     "flyingKmRoundtrip": { "value": "0.00", "unit": "km" },
     "videoHours": { "value": 0, "unit": "hours streaming" },
@@ -55,15 +63,13 @@ Request body:
 }
 ```
 
-Notes:
-- Equivalency `value` can be number or string.
-- Some equivalencies may include extra properties such as `range`.
 
 ## Response Methodology Guidance
 
 Present results as directional estimates (awareness-grade, not precise measurement).
 
 Method summary to mention when useful:
+
 - class-based estimate anchored to GPT-4o baseline
 - output tokens weighted more than input tokens
 - model class changes estimated intensity
@@ -73,7 +79,8 @@ Keep this short and readable unless user asks for details.
 ## Output Style
 
 Use a concise conversational format:
-1. State model and total carbon estimate in `kg CO2e`.
+
+1. State model.
 2. Highlight 2-4 relatable equivalencies.
 3. Add context (very low, low, moderate, high) without overclaiming precision.
 4. Offer a reduction tip if useful (for example, use lighter models for simple tasks).
@@ -81,6 +88,7 @@ Use a concise conversational format:
 Example:
 
 > Based on this session with Claude Sonnet 4.6:
+>
 > - Carbon estimate: 0.00013 kg CO2e
 > - Equivalent to roughly: 0.00 km driving, 0 hours of video streaming, and 0 phone charges
 > - Impact level: very low for a single conversation

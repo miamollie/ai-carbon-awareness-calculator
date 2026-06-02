@@ -60,6 +60,7 @@ Serverless (Lambda) → Only pays for execution → Zero idle
 - Fast cold start (<100ms)
 
 ### 3. Caching
+
 <!-- //todo check this is happening -->
 
 - Identical requests return cached response
@@ -81,10 +82,9 @@ Serverless (Lambda) → Only pays for execution → Zero idle
 - Output tokens are weighted 3x relative to input tokens
 - Carbon range is derived from low/high grid intensity assumptions
 
-
 ### Multi region deployment
-Original approach is documented in [multi-region-deployment.md](multi-region-deployment.md), but the current deployment favors greener regions using the [GreenPixie cloud region scorecard](https://assets.greenpixie.com/downloads/Cloud_Region_Scorecard.pdf).
 
+Original approach is documented in [multi-region-deployment.md](multi-region-deployment.md), but the current deployment favors greener regions using the [GreenPixie cloud region scorecard](https://assets.greenpixie.com/downloads/Cloud_Region_Scorecard.pdf).
 
 ## Multi-LLM Support
 
