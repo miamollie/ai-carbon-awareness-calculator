@@ -73,9 +73,17 @@ Serverless (Lambda) → Only pays for execution → Zero idle
   - Lambda overhead
   - Execution time
 
+### 5. Transparent Estimation Model
+
+- Energy is returned first in Wh
+- Model names are mapped into size classes
+- A GPT-4o anchor baseline (240 kWh per million tokens) is scaled by class
+- Output tokens are weighted 3x relative to input tokens
+- Carbon range is derived from low/high grid intensity assumptions
+
 
 ### Multi region deployment
-Original considered see [multi region doc](multi-region-deployment.md) but opted to use G[reenPixie cloud region scorecard](https://assets.greenpixie.com/downloads/Cloud_Region_Scorecard.pdf) and instead deploy in a green zoen.
+Original approach is documented in [multi-region-deployment.md](multi-region-deployment.md), but the current deployment favors greener regions using the [GreenPixie cloud region scorecard](https://assets.greenpixie.com/downloads/Cloud_Region_Scorecard.pdf).
 
 
 ## Multi-LLM Support

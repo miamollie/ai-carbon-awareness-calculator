@@ -1,4 +1,6 @@
 # Carbon Calculator request collection
+# Methodology note: energy is estimated from a class-based model anchored at GPT-4o
+# (240 kWh per million tokens), with output tokens weighted 3x input tokens.
 # Usage in VS Code REST Client:
 # 0) Start local API: npm run sam:local
 # 1) Update local and prod base URLs
@@ -20,7 +22,7 @@
 GET {{localBaseURL}}/health
 Accept: {{contentType}}
 
-### Local REST energy impact calculation
+### Local REST energy impact calculation (medium class example)
 POST {{localBaseURL}}/energy
 Content-Type: {{contentType}}
 
@@ -134,7 +136,7 @@ mcp-session-id: {{mcpSessionId}}
 GET {{prodBaseURL}}/health
 Accept: {{contentType}}
 
-### Production REST energy impact calculation
+### Production REST energy impact calculation (medium class example)
 POST {{prodBaseURL}}/energy
 Content-Type: {{contentType}}
 

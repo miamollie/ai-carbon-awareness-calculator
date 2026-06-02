@@ -18,12 +18,12 @@ When you ask Claude about the environmental impact of your session, this skill w
 
 > Based on our conversation so far (using Claude Sonnet 4.6):
 >
-> - **Energy usage**: 1.6 Wh
-> - **Carbon range**: 0.00008-0.00112 kg CO₂e (low vs high grid intensity)
+> - **Energy usage**: 3.6 Wh
+> - **Carbon range**: 0.00018-0.00252 kg CO2e (low vs high grid intensity)
 > - **That's equivalent to**:
->   - Running a microwave for about 5 seconds
->   - Charging a phone battery by a small fraction
->   - Running a laptop for about 2 minutes
+>   - Running a microwave for about 11 seconds
+>   - Charging a phone battery by about 0.3 charges
+>   - Running a laptop for about 4 minutes
 >
 > This conversation has had a negligible environmental impact! 🌱
 
@@ -43,19 +43,21 @@ Or any variation asking about carbon, emissions, environmental impact, or carbon
 
 ✅ **Works with all Claude models** — Sonnet, Opus, Haiku, etc.  
 ✅ **Real-world comparisons** — Kettles boiled, km driven, video watched, etc.  
-✅ **Transparent methodology** — Based on published research and provider disclosures
+✅ **Transparent methodology** — Class-based estimate with clear anchor and multipliers
 
 ## How It Works
 
 ### The Calculation
 
-The API multiplies token counts by per-model input/output energy factors and returns Wh as the primary output. It then derives low/high CO₂e ranges using grid-intensity assumptions.
+The API maps model names to a model size class, then applies class multipliers to a GPT-4o anchor baseline.
 
-These factors are based on:
+Current assumptions:
 
-- Public model/provider disclosures
-- Benchmark analyses
-- Published energy/emissions references
+- Anchor: 240 kWh per million tokens (0.24 Wh per 1k input tokens)
+- Output tokens weighted 3x vs input tokens
+- Class multipliers: small 0.5x, medium 1x, large 2x, huge 4x
+
+It returns Wh as the primary output and then derives low/high CO2e ranges from grid-intensity assumptions.
 
 ### Important Notes
 
