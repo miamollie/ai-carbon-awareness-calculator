@@ -50,7 +50,9 @@ function buildMcpServer(): McpServer {
 }
 
 export function createMcpApp() {
-  const app = createMcpExpressApp();
+  // In Lambda/API Gateway, Host is the public API domain (not localhost), so
+  // disable localhost-only host validation used for local desktop servers.
+  const app = createMcpExpressApp({ host: "0.0.0.0" });
   app.use(express.json());
 
   app.post("/mcp", mcpPostLimiter, async (req, res) => {
