@@ -1,74 +1,40 @@
-# 🌱 AI Carbon Awareness API
+# AI Energy Awareness API
 
-> _Visibility over perfection._
-> A practical carbon-awareness layer for AI applications, assistants, and workflows.
+Visibility over perfection.
+A practical energy-awareness layer for AI applications, assistants, and workflows.
 
-This project estimates the environmental impact of AI token usage, then translates those numbers into human-scale equivalencies so they're easier to reason about.
+This project estimates AI request energy from token counts, then translates that energy into human-scale equivalents and low/high ranges based on grid intensity assumptions.
 
-The goal is not perfect carbon accounting. The goal is awareness.
+## What Is Included
 
----
+- REST API for direct integration (`POST /energy`)
+- MCP server over Streamable HTTP (`/mcp`) for tool calling workflows
+- AWS CDK infrastructure split into API, REST, MCP, and observability stacks
+- CloudWatch dashboards for usage and energy metrics
 
-# 🌿 What’s Included
-
-Under the hood, this repo contains:
-
-- 🧮 A REST API for direct integration (`POST /carbon`)
-- 🤖 An MCP server over Streamable HTTP (`/mcp`) so LLMs can query the calculator as a tool
-- ☁️ AWS CDK infrastructure split into API, REST, MCP, and observability stacks
-- 📊 CloudWatch dashboards for usage and carbon metrics
-- 🪴 A lightweight data layer with values aggregated from other
-
----
-
-# 🔌 Integration Options
-
-You can integrate the calculator in two ways:
+## Integration Options
 
 | Integration Type          | Best For                           |
 | ------------------------- | ---------------------------------- |
-| REST API (`POST /carbon`) | Apps, services, automations        |
+| REST API (`POST /energy`) | Apps, services, automations        |
 | MCP (`/mcp`)              | Claude/Desktop assistant workflows |
 
-Ready-to-run examples live in:
+Ready-to-run examples are in `requests.http`.
 
-```txt
-requests.http
-```
+## Claude / MCP Usage
 
----
+High-level flow:
 
-## 🤖 Claude / MCP Usage
-
-This project can act as an MCP tool backend for Claude clients that support Streamable HTTP.
-
-### High-level flow
-
-1. Initialize a session with:
-
-```http
-POST /mcp
-```
-
+1. Initialize a session with `POST /mcp`
 2. Capture the `mcp-session-id` response header
-
 3. Call tools using the same session ID
+4. End the session with `DELETE /mcp`
 
-4. End the session with:
+Available tool:
 
-```http
-DELETE /mcp
-```
+- `calculate_ai_energy_impact`
 
----
-
-### Available Tool
-
-```txt
-calculate_AI_carbon_emissions
-```
-
-### Required Arguments
+Required arguments:
 
 | Argument        | Example             |
 | --------------- | ------------------- |
@@ -76,14 +42,12 @@ calculate_AI_carbon_emissions
 | `input_tokens`  | `50000`             |
 | `output_tokens` | `25000`             |
 
----
-
-## 💬 REST API Usage
+## REST API Usage
 
 Example request:
 
 ```bash
-curl -X POST "$BASE_URL/carbon" \
+curl -X POST "$BASE_URL/energy" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "claude-sonnet-4.6",
@@ -96,71 +60,79 @@ Example response:
 
 ```json
 {
-  "carbon_kg_co2e": 0.0012,
+  "energy_wh": 30,
+  "impact_level": "very_heavy",
   "model": "claude-sonnet-4.6",
+  "carbon_kg_co2e_range": {
+    "low": 0.0015,
+    "high": 0.021
+  },
+  "grid_intensity_assumptions_gco2e_per_kwh": {
+    "low": 50,
+    "high": 700
+  },
   "equivalencies": {
-    "drivingKm": {
-      "value": "0.00",
-      "unit": "km"
+    "evMilesDriven": {
+      "value": 0.12,
+      "unit": "miles in a typical EV (~250 Wh/mile)"
+    },
+    "kettleMinutesBoiled": {
+      "value": 1,
+      "unit": "minutes boiling water in a 1500W electric kettle"
+    },
+    "shredderMinutes": {
+      "value": 5,
+      "unit": "minutes running a 360W paper shredder"
+    },
+    "ledBulbHours": {
+      "value": 3,
+      "unit": "hours at 10W"
     }
+  },
+  "methodology": {
+    "source_type": "estimated",
+    "confidence": "medium",
+    "notes": "Class-based estimate anchored to GPT-4o at 240 kWh per million tokens (0.24 Wh per 1k input tokens). Model class medium applies a 1x multiplier; output tokens use a 3x multiplier vs input tokens."
   }
 }
 ```
 
+## Energy Methodology
 
+The current method is intentionally pragmatic and transparent.
 
-# 🌍 Carbon Methodology
+1. Take input and output token counts.
+2. Map model name to a model class (`small`, `medium`, `large`, `huge`).
+3. Use a single anchor baseline from GPT-4o:
+   - `240 kWh / 1,000,000 tokens`
+   - Equivalent to `0.24 Wh / 1,000 input tokens`
+4. Apply class multipliers:
+   - `small=0.5x`
+   - `medium=1x`
+   - `large=2x`
+   - `huge=4x`
+5. Apply output-token weighting at `3x` input-token energy.
+6. Return energy in Wh as the primary output.
+7. Derive low/high kgCO2e from grid intensity assumptions.
+8. Add practical equivalencies and an impact label.
 
-## Progress > Perfection
+These values are directional estimates, not provider-grade measured emissions.
 
-This project is intentionally pragmatic.
+## Wh to CO2e
 
-The environmental impact of AI systems is difficult to measure precisely because providers expose very little verifiable infrastructure data. These estimates should therefore be treated as directional guidance, not formal reporting figures.
+Carbon depends on electricity mix, so the API returns a range using:
 
-The calculator exists to:
+- Low grid intensity: `50 gCO2e/kWh`
+- High grid intensity: `700 gCO2e/kWh`
 
-- increase visibility
-- encourage better trade-off thinking
-- support more mindful AI usage
+Reference conversion at `400 gCO2e/kWh`:
 
-—not to provide exact accounting.
+- `1 Wh ~= 0.4 g CO2e`
+- `100 Wh ~= 40 g CO2e`
+- `1 kWh ~= 0.4 kg CO2e`
+- `10 kWh ~= 4 kg CO2e`
 
----
-
-## Method Summary
-
-The calculator:
-
-1. Takes input and output tokens
-2. Applies model-specific emissions factors
-3. Normalizes the result into kgCO2e
-4. Maps the output into everyday equivalencies
-
-Examples include:
-
-- driving distance
-- streaming hours
-- smartphone charges
-
----
-
-## Data Sources
-
-The current estimates draw from a blend of:
-
-- 🤗 Hugging Face
-- 🌱 GreenPixie
-- ⚡ EcoLogits
-- public provider disclosures
-- benchmark analyses
-
-As better data becomes available, the dataset should evolve alongside it.
-
----
-
-# 🚀 Quick Start
-
-## Local Development
+## Quick Start
 
 ```bash
 npm install
@@ -168,25 +140,19 @@ npm run build
 npm run sam:local
 ```
 
-Your local endpoints will be:
+Local endpoints:
 
-```txt
-REST API: http://localhost:3000
-MCP API:  http://localhost:3000/mcp
-```
+- REST API: `http://localhost:3000`
+- MCP API: `http://localhost:3000/mcp`
 
 Health checks:
 
-```txt
-GET /health
-GET /mcp-health
-```
+- `GET /health`
+- `GET /mcp-health`
 
----
+## Infrastructure and Deployment
 
-# 🏗️ Infrastructure & Deployment
-
-## Prerequisites
+Prerequisites:
 
 - Node.js 22+
 - npm
@@ -194,9 +160,7 @@ GET /mcp-health
 - AWS CDK v2 CLI
 - SAM CLI
 
----
-
-## Build & Validate
+Build and validate:
 
 ```bash
 npm run build
@@ -204,21 +168,11 @@ npm test
 npm run cdk:synth
 ```
 
----
+## Why This Exists
 
+This project exists to make AI energy usage more tangible for everyday decisions.
+Precision is hard with limited provider telemetry, but transparent directional guidance is still useful.
 
-# 🌱 Why This Exists
+## Contact
 
-This project started as a personal experiment in applying green software principles to generative AI workflows.
-
-The more I researched AI emissions, the clearer it became that precision is often an illusion — but imperfect visibility is still far better than none.
-
-So this repo is my attempt at making AI energy usage a little more tangible.
-
----
-
-# 👋 Get In Touch
-
-Interested in green software, sustainable infrastructure, or AI observability?
-
-Reach out via my [website](https://miamollie.dev/) — always happy to chat 🌿
+More information: https://miamollie.dev/

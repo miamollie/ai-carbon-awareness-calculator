@@ -1,6 +1,6 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import { calculate } from "../calculator";
-import { carbonRequestSchema } from "../schemas/carbon";
+import { requestSchema } from "../schemas";
 
 export const handler = async (
   event: APIGatewayProxyEventV2,
@@ -9,11 +9,15 @@ export const handler = async (
   if (!payload) {
     return jsonResponse(400, {
       error: "Invalid JSON body",
-      example: { model: "sonnet", input_tokens: 50000, output_tokens: 25000 },
+      example: {
+        model: "claude-sonnet-4.6",
+        input_tokens: 50000,
+        output_tokens: 25000,
+      },
     });
   }
 
-  const parsedPayload = carbonRequestSchema.safeParse(payload);
+  const parsedPayload = requestSchema.safeParse(payload);
   if (!parsedPayload.success) {
     return jsonResponse(400, {
       error: "Invalid request body",

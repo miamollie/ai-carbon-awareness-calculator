@@ -2,35 +2,36 @@
 // and may be tuned with better regional data
 import { Equivalencies } from "../types";
 
+// Source-backed constants (directional, not universal):
+// - EV: ~25 kWh / 100 miles from EPA fuel economy examples => 250 Wh / mile.
+// - Kettle: 1500 W from DOE appliance example.
+// - Paper shredder: 360 W from DOE appliance example.
+// - LED bulb: common 10 W household LED replacement class.
+const EV_WH_PER_MILE = 250;
+const KETTLE_WATTS = 1500;
+const SHREDDER_WATTS = 360;
+const LED_WATTS = 10;
+
 /**
- * Get equivalencies for a CO₂ amount
+ * Get equivalencies for an energy amount.
  */
-export function getEquivalencies(kgCo2e: number): Equivalencies {
+export function getEquivalencies(energyWh: number): Equivalencies {
   return {
-    microwaveRuns: {
-      value: Math.round(kgCo2e * 17.5),
-      range: `${Math.round(kgCo2e * 17.5)}-${Math.round(kgCo2e * 20)}`,
-      unit: "runs (2 min each)",
+    evMilesDriven: {
+      value: Number((energyWh / EV_WH_PER_MILE).toFixed(4)),
+      unit: "miles in a typical EV (~250 Wh/mile)",
     },
-    drivingKm: {
-      value: (kgCo2e * 3.5).toFixed(2),
-      unit: "km",
+    kettleMinutesBoiled: {
+      value: Math.round((energyWh / KETTLE_WATTS) * 60),
+      unit: "minutes boiling water in a 1500W electric kettle",
     },
-    flyingKmRoundtrip: {
-      value: (kgCo2e * 0.3).toFixed(2),
-      unit: "km",
+    shredderMinutes: {
+      value: Math.round((energyWh / SHREDDER_WATTS) * 60),
+      unit: "minutes running a 360W paper shredder",
     },
-    videoHours: {
-      value: Math.round(kgCo2e * 40),
-      unit: "hours streaming",
-    },
-    beefKg: {
-      value: (kgCo2e * 0.1).toFixed(2),
-      unit: "kg",
-    },
-    smartphoneCharges: {
-      value: Math.round(kgCo2e * 175),
-      unit: "charges",
+    ledBulbHours: {
+      value: Number((energyWh / LED_WATTS).toFixed(2)),
+      unit: "hours at 10W",
     },
   };
 }

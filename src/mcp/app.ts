@@ -4,11 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { calculate } from "../calculator";
-import {
-  carbonRequestSchema,
-  carbonRequestShape,
-  carbonResponseShape,
-} from "../schemas/carbon";
+import { requestSchema, requestShape, responseShape } from "../schemas";
 import {
   mcpGetLimiter,
   mcpPostLimiter,
@@ -29,21 +25,21 @@ import {
 
 function buildMcpServer(): McpServer {
   const server = new McpServer(
-    { name: "ai-carbon-awareness-calculator", version: "1.0.0" },
+    { name: "ai-energy-awareness-calculator", version: "1.0.0" },
     { capabilities: { tools: {} } },
   );
 
   server.registerTool(
-    "calculate_AI_carbon_emissions",
+    "calculate_ai_energy_impact",
     {
-      title: "Calculate AI CarbonEmissions",
+      title: "Calculate AI Energy Impact",
       description:
-        "Calculate carbon emissions (kg CO2e) from AI model token usage",
-      inputSchema: carbonRequestShape,
-      outputSchema: carbonResponseShape,
+        "Calculate AI energy use (Wh) and low/high energy ranges from token usage",
+      inputSchema: requestShape,
+      outputSchema: responseShape,
     },
     async (args) => {
-      const parsedRequest = carbonRequestSchema.safeParse(args);
+      const parsedRequest = requestSchema.safeParse(args);
       if (!parsedRequest.success) {
         return {
           content: [
@@ -206,7 +202,7 @@ export function createMcpApp() {
   app.get("/mcp-health", healthLimiter, (_req, res) => {
     res.json({
       status: "ok",
-      service: "carbon-calc-mcp",
+      service: "energy-calc-mcp",
       transport: "streamable-http",
     });
   });

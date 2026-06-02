@@ -1,8 +1,8 @@
 {
-  "name": "carbon-calc",
+  "name": "ai-energy-awareness",
   "version": "0.1.0",
   "private": true,
-  "description": "Single-region CDK MVP for Lambda carbon calculator",
+  "description": "Single-region CDK MVP for Lambda AI energy awareness tool",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -14,8 +14,8 @@
     "cdk:diff": "cdk diff",
     "cdk:deploy": "cdk deploy --all --require-approval never",
     "cdk:destroy": "cdk destroy",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run src/*.test.ts src/**/*.test.ts",
+    "test:watch": "vitest src/*.test.ts src/**/*.test.ts"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.147",

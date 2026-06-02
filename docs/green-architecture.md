@@ -22,7 +22,7 @@ Serverless (Lambda) → Only pays for execution → Zero idle
 ┌─────────────┐
 │   Client    │ (Claude, ChatGPT, etc.)
 └──────┬──────┘
-       │ HTTP POST to /carbon
+       │ HTTP POST to /energy
        ↓
 ┌─────────────────────────┐
 │   API Gateway (REST)    │
@@ -40,7 +40,6 @@ Serverless (Lambda) → Only pays for execution → Zero idle
        ↓ Return JSON + timestamp
 ┌─────────────────────────┐
 │  CloudWatch Logs        │
-│  (Track carbon profile) │
 └─────────────────────────┘
 ```
 
@@ -60,27 +59,26 @@ Serverless (Lambda) → Only pays for execution → Zero idle
 - Fast cold start (<100ms)
 
 ### 3. Caching
-<!-- //todo check this is happening -->
 
 - Identical requests return cached response
 - Avoid re-computing
 
-### 4. GreenOps
 
-- Log every execution
-- CloudWatch tracks:
-  - Carbon per request
-  - Lambda overhead
-  - Execution time
+### 5. Transparent Estimation Model
 
+- Energy is returned first in Wh
+- Model names are mapped into size classes
+- A GPT-4o anchor baseline (240 kWh per million tokens) is scaled by class
+- Output tokens are weighted 3x relative to input tokens
+- Carbon range is derived from low/high grid intensity assumptions
 
 ### Multi region deployment
-Original considered see [multi region doc](multi-region-deployment.md) but opted to use G[reenPixie cloud region scorecard](https://assets.greenpixie.com/downloads/Cloud_Region_Scorecard.pdf) and instead deploy in a green zoen.
 
+Original approach is documented in [multi-region-deployment.md](multi-region-deployment.md), but the current deployment favors greener regions using the [GreenPixie cloud region scorecard](https://assets.greenpixie.com/downloads/Cloud_Region_Scorecard.pdf).
 
 ## Multi-LLM Support
 
-Same Lambda backend works for:
+Same serverless backend works for:
 
 - Claude (via MCP)
 - ChatGPT (via API endpoint directly, no MCP wrapper needed)

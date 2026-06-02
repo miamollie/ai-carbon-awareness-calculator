@@ -18,7 +18,7 @@ export const SESSION_TTL_SECONDS = 60 * 60;
 export const SESSION_ID_HEADER = "mcp-session-id";
 
 const SESSION_JWT_SECRET =
-  process.env.MCP_SESSION_JWT_SECRET || "carbon-calc-demo-session-secret";
+  process.env.MCP_SESSION_JWT_SECRET || "demo-session-secret";
 
 export const sessions = new Map<string, Session>();
 
