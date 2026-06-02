@@ -77,6 +77,7 @@ export function carbonRangeFromEnergyWh(
 
 export function calculate(request: CarbonRequest): CarbonResponse {
   const model = (request.model ?? "sonnet") as ModelName;
+  const profile = LLM_ENERGY_ESTIMATES[model];
   const energyWh = energyWhFromTokens(
     request.input_tokens,
     request.output_tokens,
@@ -97,8 +98,7 @@ export function calculate(request: CarbonRequest): CarbonResponse {
     methodology: {
       source_type: "estimated",
       confidence: "medium",
-      notes:
-        "Primary output is request energy in Wh, with carbon range derived from grid-intensity assumptions.",
+      notes: `Class-based estimate anchored to GPT-4o at 240 kWh per million tokens (0.24 Wh per 1k input tokens). Model class ${profile.modelClass} applies a ${profile.classMultiplier}x multiplier; output tokens use a 3x multiplier vs input tokens.`,
     },
   };
 }

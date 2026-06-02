@@ -34,7 +34,7 @@ describe("calculator", () => {
 
   it("computes energy in Wh from token counts", () => {
     const energyWh = energyWhFromTokens(1000, 500, "gpt-4o");
-    expect(energyWh).toBeCloseTo(0.365, 10);
+    expect(energyWh).toBeCloseTo(0.6, 10);
   });
 
   it("calculates a response with energy, carbon range, and equivalencies", () => {
@@ -45,12 +45,12 @@ describe("calculator", () => {
     });
 
     expect(result.model).toBe("claude-sonnet-4.6");
-    expect(result.energy_wh).toBe(640);
+    expect(result.energy_wh).toBe(960);
     expect(result.impact_level).toBe("very_heavy");
-    expect(result.carbon_kg_co2e_range.low).toBe(0.032);
-    expect(result.carbon_kg_co2e_range.high).toBe(0.448);
+    expect(result.carbon_kg_co2e_range.low).toBe(0.048);
+    expect(result.carbon_kg_co2e_range.high).toBe(0.672);
     expect(result.equivalencies).toHaveProperty("iphoneCharges");
-    expect(result.equivalencies.iphoneCharges.value).toBe(53.33);
+    expect(result.equivalencies.iphoneCharges.value).toBe(80);
     expect(result.methodology.source_type).toBe("estimated");
   });
 });
