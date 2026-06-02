@@ -29,7 +29,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
 
     const calculatorLambda = new NodejsFunction(
       this,
-      "EnergyImpactCalculatorFunction",
+      "CarbonCalculatorFunction",
       {
         entry: "src/rest/handler.ts",
         handler: "handler",

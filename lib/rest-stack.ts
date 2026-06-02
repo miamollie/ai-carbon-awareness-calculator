@@ -40,7 +40,7 @@ export class RestStack extends cdk.Stack {
     // Lambda functions
     this.calculatorLambda = new NodejsFunction(
       this,
-      "EnergyImpactCalculatorFunction",
+      "CarbonCalculatorFunction",
       {
         entry: "src/rest/handler.ts",
         handler: "handler",
