@@ -50,27 +50,9 @@ export class McpStack extends cdk.Stack {
     // MCP routes (registered on the API from RestStack)
     props.api.addRoutes({
       path: "/mcp",
-      methods: [apigwv2.HttpMethod.GET],
-      integration: new integrations.HttpLambdaIntegration(
-        "McpGetIntegration",
-        this.mcpLambda,
-      ),
-    });
-
-    props.api.addRoutes({
-      path: "/mcp",
       methods: [apigwv2.HttpMethod.POST],
       integration: new integrations.HttpLambdaIntegration(
         "McpPostIntegration",
-        this.mcpLambda,
-      ),
-    });
-
-    props.api.addRoutes({
-      path: "/mcp",
-      methods: [apigwv2.HttpMethod.DELETE],
-      integration: new integrations.HttpLambdaIntegration(
-        "McpDeleteIntegration",
         this.mcpLambda,
       ),
     });

@@ -95,11 +95,7 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
     const api = new apigwv2.HttpApi(this, "AIEnergyAwarenessApi", {
       description: `AIEnergy impact calculator API (${props.env?.region || defaultRegion})`,
       corsPreflight: {
-        allowMethods: [
-          apigwv2.CorsHttpMethod.POST,
-          apigwv2.CorsHttpMethod.GET,
-          apigwv2.CorsHttpMethod.DELETE,
-        ],
+        allowMethods: [apigwv2.CorsHttpMethod.POST, apigwv2.CorsHttpMethod.GET],
         allowOrigins: ["*"],
         // ASSUMPTION: permissive CORS is acceptable for internal MVP testing only.
       },
@@ -127,30 +123,12 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       ),
     });
 
-    // ASSUMPTION: MCP streamable-http clients reconnect frequently, so API Gateway's 29s timeout is acceptable.
-    api.addRoutes({
-      path: "/mcp",
-      methods: [apigwv2.HttpMethod.GET],
-      integration: new integrations.HttpLambdaIntegration(
-        "McpGetIntegration",
-        mcpLambda,
-      ),
-    });
-
+    // Stateless MCP transport: POST-only /mcp endpoint.
     api.addRoutes({
       path: "/mcp",
       methods: [apigwv2.HttpMethod.POST],
       integration: new integrations.HttpLambdaIntegration(
         "McpPostIntegration",
-        mcpLambda,
-      ),
-    });
-
-    api.addRoutes({
-      path: "/mcp",
-      methods: [apigwv2.HttpMethod.DELETE],
-      integration: new integrations.HttpLambdaIntegration(
-        "McpDeleteIntegration",
         mcpLambda,
       ),
     });
@@ -213,15 +191,9 @@ export class CarbonAwarenessCalculatorStack extends cdk.Stack {
       description: "GET endpoint for service health",
     });
 
-    new cdk.CfnOutput(this, "McpGetEndpoint", {
-      value: `${api.apiEndpoint}/mcp`,
-      description: "GET streamable-http MCP endpoint",
-    });
-
     new cdk.CfnOutput(this, "McpPostEndpoint", {
       value: `${api.apiEndpoint}/mcp`,
-      description:
-        "POST streamable-http MCP endpoint (use mcp-session-id header)",
+      description: "POST streamable-http MCP endpoint (stateless mode)",
     });
   }
 }

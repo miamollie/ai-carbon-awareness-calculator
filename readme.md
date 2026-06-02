@@ -23,16 +23,21 @@ Ready-to-run examples are in `requests.http`.
 
 ## Claude / MCP Usage
 
-High-level flow:
+---
 
-1. Initialize a session with `POST /mcp`
-2. Capture the `mcp-session-id` response header
-3. Call tools using the same session ID
-4. End the session with `DELETE /mcp`
+## 🤖 Claude / MCP Usage
 
-Available tool:
+This project can act as an MCP tool backend for Claude clients that support Streamable HTTP.
 
-- `calculate_ai_energy_impact`
+### High-level flow
+
+1. Initialize MCP with:
+
+```http
+POST /mcp
+```
+
+2. Call tools with additional `POST /mcp` JSON-RPC requests
 
 Required arguments:
 
@@ -97,7 +102,7 @@ Example response:
 }
 ```
 
-## Energy Methodology
+# 🌍 Methodology
 
 The current method is intentionally pragmatic and transparent.
 
@@ -115,8 +120,6 @@ The current method is intentionally pragmatic and transparent.
 6. Return energy in Wh as the primary output.
 7. Derive low/high kgCO2e from grid intensity assumptions.
 8. Add practical equivalencies and an impact label.
-
-These values are directional estimates, not provider-grade measured emissions.
 
 ## Wh to CO2e
 
@@ -172,7 +175,3 @@ npm run cdk:synth
 
 This project exists to make AI energy usage more tangible for everyday decisions.
 Precision is hard with limited provider telemetry, but transparent directional guidance is still useful.
-
-## Contact
-
-More information: https://miamollie.dev/
